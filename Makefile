@@ -17,7 +17,7 @@ else ifeq (${UNAME_S}, Darwin)
 	EXTRA = -L${MINILIBX} -lmlx -framework OpenGl -framework AppKit
 endif
 
-SRCS = main.c extension.c
+SRCS = main.c extension.c parsing.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}
