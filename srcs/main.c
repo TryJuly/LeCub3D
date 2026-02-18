@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 12:24:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:01:25 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 // int	main(int ac, char **av)
 // {
+// 	char	**tmp;
 // 	(void)ac;
 // 	(void)av;
-//
+
 // 	valide_extension(av[1]);
+// 	tmp = clean_extract(av[1]);
+// 	print_tab(tmp);
 // 	return (0);
 // }
 
@@ -97,10 +100,19 @@ int	handle_key(int keycode, t_data *data)
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
+	(void)ac;
+	(void)av;
+	char	**tab;
 	t_data	data;
-
+	
+	tab = clean_extract(av[1]);
+	if (!tab)
+		return (1);
+	data.map = get_map(tab);
+	if (!data.map)
+		return (1);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, 1000, 1000, "Cub3D");
 	data.grid_size = 16;

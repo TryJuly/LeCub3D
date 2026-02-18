@@ -6,14 +6,14 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:50:14 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 11:47:46 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/18 14:40:29 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	lenght_up_map(char **file);
-static int	lenght_down_map(char **file);
+static int	map_set(char c);
+static int	is_valide_line(char *line);
 
 char	**get_map(char **file)
 {
@@ -23,7 +23,7 @@ char	**get_map(char **file)
 	int		lenght_up;
 	int		lenght_down;
 
-	lenght_up = lenght_up_map(file);
+	lenght_up = lenght_top_map(file);
 	lenght_down = lenght_down_map(file);
 	map = ft_calloc(((lenght_down - lenght_up) + 1), sizeof(char *));
 	if (!map)
@@ -41,9 +41,8 @@ char	**get_map(char **file)
 	return (map);
 }
 
-static int	lenght_down_map(char **file)
+int	lenght_down_map(char **file)
 {
-	int	i;
 	int	count;
 
 	count = 0;
@@ -51,31 +50,60 @@ static int	lenght_down_map(char **file)
 		count++;
 	while (count > 5)
 	{
-		i = 0;
-		while (file[count][i] && ft_strlen(&file[count][i]) > 4
-				&& ft_strncmp(&file[count][i], "1111", 4))
-			i++;
-		if (!ft_strncmp(&file[count][i], "1111", 4))
+		if (!is_valide_line(file[count]))
 			break ;
 		count--;
 	}
 	return (count);
 }
 
-static int	lenght_up_map(char **file)
+int	lenght_top_map(char **file)
 {
-	int	i;
 	int	count;
 
 	count = 0;
 	while (file[count] != 0)
 	{
-		i = 0;
-		while (file[count][i] && ft_strncmp(&file[count][i], "1111", 4))
-			i++;
-		if (!ft_strncmp(&file[count][i], "1111", 4))
+		if (!is_valide_line(file[count]))
 			break ;
 		count++;
 	}
 	return (count);
+}
+
+static int	is_valide_line(char *line)
+{
+	int	count;
+
+	count = 0;
+	if (line[0] == '\n' || line[0] == '\0')
+		return (1);
+	while (line[count])
+	{
+		if (map_set(line[count]) == 1)
+			return (1);
+		count++;
+	}
+	return (0);
+}
+
+static int	map_set(char c)
+{
+	if (c == '1')
+		return (0);
+	else if (c == '0')
+		return (0);
+	else if (c == 'N')
+		return (0);
+	else if (c == 'S')
+		return (0);
+	else if (c == 'E')
+		return (0);
+	else if (c == 'W')
+		return (0);
+	else if (c == ' ')
+		return (0);
+	else if (c == '\t')
+		return (0);
+	return (1);
 }

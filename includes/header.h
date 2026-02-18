@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 12:20:19 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/18 14:40:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,40 @@
 
 # include <fcntl.h>
 
-typedef struct s_data
-{
-	char	**map;
-	char	*no_texture;
-	char	*so_texture;
-	char	*we_texture;
-	char	*ea_texture;
-	int		*rgb_ceiling;
-	int		*rgb_floor;
+// typedef struct s_data
+// {
+// 	char	**map;
+// 	char	*no_texture;
+// 	char	*so_texture;
+// 	char	*we_texture;
+// 	char	*ea_texture;
+// 	int		*rgb_ceiling;
+// 	int		*rgb_floor;
 
-}	t_data;
+// }	t_data;
 
 /*		check				*/
 
 int		valide_extension(char *filename);
 
-char	**exctract_file(char *filename, char *tmp, int count);
+char	**clean_extract(char *filename);
+// char	**exctract_file(char *filename, char *tmp, int count);
 void	print_tab(char **tab);
 
 /*		About map			*/
 
 char	**get_map(char **file);
+int		lenght_top_map(char **file);
+int		lenght_down_map(char **file);
 
 /*		Get texture path	*/
 
-char	*get_no_texture(char **out_file);
-char	*get_so_texture(char **out_file);
-char	*get_we_texture(char **out_file);
-char	*get_ea_texture(char **out_file);
+char	*get_no_texture(char **file);
+char	*get_so_texture(char **file);
+char	*get_we_texture(char **file);
+char	*get_ea_texture(char **file);
+int		*get_rgb_f(char **file);
+int		*get_rgb_c(char **file);
 
 /*		Clean				*/
 
