@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
 /*   Updated: 2026/02/18 14:51:58 by cbezenco         ###   ########.fr       */
@@ -163,7 +163,17 @@ void	print_map(t_data *data)
 
 int	main(int ac, char **av)
 {
+	(void)ac;
+	(void)av;
+	char	**tab;
 	t_data	data;
+	
+	tab = clean_extract(av[1]);
+	if (!tab)
+		return (1);
+	data.map = get_map(tab);
+	if (!data.map)
+		return (1);
 
 	if (ac > 2)
 		return (0);

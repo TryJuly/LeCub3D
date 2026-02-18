@@ -6,13 +6,25 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:05:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 11:42:32 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/18 14:24:59 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 static int	length_file(char *filename);
+static char	**exctract_file(char *filename, char *tmp, int count);
+
+// int	is_valide_file(char **file)
+// {
+// 	int	count;
+
+// 	count = 0;
+// 	while (file[count] != 0)
+// 	{
+		
+// 	}
+// }
 
 // int	parsing(char *filename)
 // {
@@ -21,7 +33,6 @@ static int	length_file(char *filename);
 // 	out_file = exctract_file(filename, 0, 0);
 // 	if (!out_file)
 // 		return (-1);
-	
 // }
 
 void	print_tab(char **tab)
@@ -30,11 +41,33 @@ void	print_tab(char **tab)
 
 	count = 0;
 	while (tab[count] != 0)
-		printf("%s", tab[count++]);
+		printf("%s\n", tab[count++]);
 	return ;
 }
 
-char	**exctract_file(char *filename, char *tmp, int count)
+char	**clean_extract(char *filename)
+{
+	int		count;
+	char	**file;
+	char	*tmp;
+	
+	file = exctract_file(filename, 0, 0);
+	if (!file)
+		return (NULL);
+	count = 0;
+	while (file[count] != 0)
+	{
+		tmp = ft_strtrim(file[count], "\n");
+		if (!tmp)
+			return (clean_array(file), NULL);
+		free(file[count]);
+		file[count] = tmp;
+		count++;
+	}
+	return (file);
+}
+
+static char	**exctract_file(char *filename, char *tmp, int count)
 {
 	int		fd;
 	char	**out_file;
