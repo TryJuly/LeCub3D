@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extension.c                                        :+:      :+:    :+:   */
+/*   get_rgb.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 14:35:18 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/17 15:06:30 by strieste         ###   ########.fr       */
+/*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
+/*   Updated: 2026/02/18 12:23:32 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	valide_extension(char *filename)
+static int	get_lenght_f(char **file);
+
+int	*get_rgb_f(char **file)
+{
+	int	*tab;
+	int	count;
+
+	count = get_lenght_f(file);
+	tab = malloc(3 * sizeof(int));
+	if (!tab)
+		return (-1);
+}
+
+static int	get_lenght_f(char **file)
 {
 	int	i;
 	int	count;
 
-	i = 0;
 	count = 0;
-	while (filename[i])
+	while (file[count] != 0)
 	{
-		if (filename[i] == '.' && !ft_strncmp(&filename[i], ".cub", 4))
-		{
-			count++;
-			i += 4;
-			continue;
-		}
-		i++;
+		i = 0;
+		while (!ft_isalpha(file[count][i]))
+			i++;
+		if (!ft_strncmp(&file[count][i], "F ", 2))
+			break ;
+		count++;
 	}
-	i -= 4;
-	if (ft_strncmp(&filename[i], ".cub", 4) != 0)
-		return (ft_putstr_fd("Not a valide extension\n", 2), 1);
-	if (count > 1)
-		return (ft_putstr_fd("More than 1 '.cub' extension\n", 2), 1);
-	if (count < 1)
-		return (ft_putstr_fd("Not a valide extention\n", 2), 1);
-	return (0);
+	return (count);
 }
