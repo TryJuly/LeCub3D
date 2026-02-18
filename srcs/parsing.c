@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:05:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/17 15:40:10 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/18 11:42:32 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ static int	length_file(char *filename);
 
 // int	parsing(char *filename)
 // {
+// 	char	**out_file;
+	
+// 	out_file = exctract_file(filename, 0, 0);
+// 	if (!out_file)
+// 		return (-1);
 	
 // }
 
@@ -29,11 +34,9 @@ void	print_tab(char **tab)
 	return ;
 }
 
-char	**exctract_file(char *filename)
+char	**exctract_file(char *filename, char *tmp, int count)
 {
 	int		fd;
-	int		count;
-	char	*tmp;
 	char	**out_file;
 
 	count = 0;
@@ -42,10 +45,13 @@ char	**exctract_file(char *filename)
 		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_putstr_fd("Error open fd\n", 2), free(out_file), NULL);
+	{
+		ft_putstr_fd("Error\nCan't open file\n", 2);
+		return (free(out_file), NULL);
+	}
 	tmp = get_next_line(fd);
 	if (!tmp)
-		return (free(out_file), NULL);
+		return (free(out_file), close(fd), NULL);
 	out_file[count++] = tmp; 
 	while (tmp)
 	{
@@ -54,10 +60,10 @@ char	**exctract_file(char *filename)
 			break ;
 		out_file[count++] = tmp;
 	}
-	out_file[count] = 0;
-	return (out_file);
+	return (out_file[count] = 0, close(fd), out_file);
 }
 
+//	Need to free if open fail
 static int	length_file(char *filename)
 {
 	int		count;
@@ -67,7 +73,7 @@ static int	length_file(char *filename)
 	count = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_putstr_fd("Error open fd\n", 2), exit(1), -1);
+		return (ft_putstr_fd("Error\nCan't open file\n", 2), exit(1), -1);
 	file = get_next_line(fd);
 	while (file)
 	{
@@ -75,5 +81,8 @@ static int	length_file(char *filename)
 		file = get_next_line(fd);
 		count++;
 	}
+	close(fd);
+	if (count <= 0)
+		return (ft_putstr_fd("Error\nEmpty file\n", 2), exit(1), -1);
 	return (count);
 }
