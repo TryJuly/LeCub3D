@@ -18,7 +18,7 @@ else ifeq (${UNAME_S}, Darwin)
 endif
 
 SRCS = main.c extension.c parsing.c clean.c get_texture.c get_map.c\
-		get_rgb.c
+		get_rgb.c dda.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}
