@@ -6,59 +6,56 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:38:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 14:54:03 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:34:06 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	check_before_map(char **file);
-
-int	is_valide_file(char **file)
+int	check_after_map(char **file)
 {
 	int	count;
+	int	i;
 
-	count = 0;
-	while (file[count] != 0)
+	count = (index_down_map(file) + 1);
+	while (file[count] && file[count] != 0)
 	{
-		
-	}
-}
-
-static int	check_before_map(char **file)
-{
-	int	count;
-
-	count = (lenght_top_map(file) - 1);
-	while (count <= 0)
-	{
-		if (is_valide_line(file[count]))
-			return (1);
-		count--;
+		i = 0;
+		while (file[count][i])
+		{
+			if (file[count][i] != ' ' && file[count][i] != '\t'
+					&& (file[count][i] != '\0'))
+			{
+				ft_putstr_fd("Error\nArgument find after map\n", 2);
+				return (1);
+			}
+			i++;
+		}
+		count++;
 	}
 	return (0);
 }
 
-static int	is_valide_line(char *line)
+int	is_valide_line(char *line)
 {
 	int	count;
 
-	if (line[0] == '\0')
-		return (0);
 	count = 0;
-	while (!ft_isalnum(line[count]))
+	while (line[count] && !ft_isalnum(line[count]))
 		count++;
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "NO", 2))
+	if (!line || line[count] == '\0')
 		return (0);
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "SO", 2))
+	if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "NO", 2))
 		return (0);
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "WE", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "SO", 2))
 		return (0);
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "EA", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "WE", 2))
 		return (0);
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "F ", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "EA", 2))
 		return (0);
-	if (ft_strlen(&line[count]) > 4 && !ft_strncmp(&line[count], "C", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "F ", 2))
+		return (0);
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "C ", 2))
 		return (0);
 	return (1);
 }
