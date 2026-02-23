@@ -6,40 +6,86 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/18 13:56:04 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:33:32 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	get_lenght_f(char **file);
-static int	get_lenght_c(char **file);
+static int	get_index_f(char **file);
+static int	get_index_c(char **file);
+static char	**tab_rgb_color(char **file, int index);
+static int	valide_rgb(char **tab);
 
 int	*get_rgb_f(char **file)
 {
-	int		i;
 	int		*tab;
-	int		count;
 	char	**tmp;
 	
+	tmp = tab_rgb_color(file, get_index_f(file));
+	if (!tmp)
+		return (NULL);
 	tab = malloc(3 * sizeof(int));
 	if (!tab)
-		return (NULL);
-	count = get_lenght_f(file);
-	i = 0;
-	while (!ft_isdigit(file[count][i]))
-		i++;
-	tmp = ft_split(&file[count][i], ',');
-	if (!tmp)
-		return (free(tab), NULL);
+		return (clean_array(tmp), NULL);
+	if (valide_rgb(tmp))
+		return (clean_array(tmp), free(tab), NULL);
 	tab[0] = ft_atoi(tmp[0]);
 	tab[1] = ft_atoi(tmp[1]);
 	tab[2] = ft_atoi(tmp[2]);
+	if (tab[0] < 0 || tab[1] < 0 || tab[2] < 0)
+		return (clean_array(tmp), free(tab), NULL);
+	if (tab[0] > 255 || tab[1] > 255 || tab[2] > 255)
+		return (clean_array(tmp), free(tab), NULL);
 	clean_array(tmp);
 	return (tab);
 }
 
-static int	get_lenght_f(char **file)
+static int	valide_rgb(char **tab)
+{
+	int	count;
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		count = 0;
+		while (tab[i][count])
+		{
+			if ((tab[i][count] < '0' || tab[i][count] > '9') && (tab[i][count] != ' ' || tab[i][count] != ',' || tab[i][count] != '\t'))
+				return (1);
+			count++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	*get_rgb_c(char **file)
+{
+	int		*tab;
+	char	**tmp;
+	
+	tmp = tab_rgb_color(file, get_index_c(file));
+	if (!tmp)
+		return (NULL);
+	tab = malloc(3 * sizeof(int));
+	if (!tab)
+		return (clean_array(tmp), NULL);
+	if (valide_rgb(tmp))
+		return (clean_array(tmp), free(tab), NULL);
+	tab[0] = ft_atoi(tmp[0]);
+	tab[1] = ft_atoi(tmp[1]);
+	tab[2] = ft_atoi(tmp[2]);
+	if (tab[0] < 0 || tab[1] < 0 || tab[2] < 0)
+		return (clean_array(tmp), free(tab), NULL);
+	if (tab[0] > 255 || tab[1] > 255 || tab[2] > 255)
+		return (clean_array(tmp), free(tab), NULL);
+	clean_array(tmp);
+	return (tab);
+}
+
+static int	get_index_f(char **file)
 {
 	int	i;
 	int	count;
@@ -52,37 +98,33 @@ static int	get_lenght_f(char **file)
 			i++;
 		if (ft_isalpha(file[count][i])
 				&& !ft_strncmp(&file[count][i], "F ", 2))
-			break ;
+			return (count);
 		count++;
 	}
-	return (count);
+	return (-1);
 }
 
-int	*get_rgb_c(char **file)
+static char	**tab_rgb_color(char **file, int index)
 {
-	int		i;
-	int		*tab;
+	char	**tab;
 	int		count;
-	char	**tmp;
-	
-	tab = malloc(3 * sizeof(int));
+
+	count = 0;
+	if (index < 0)
+		return (NULL);
+	while (file[index][count] && !ft_isdigit(file[index][count]))
+		count++;
+	if (!file[index][count])
+		return (NULL);
+	tab = ft_split(&file[index][count], ',');
 	if (!tab)
 		return (NULL);
-	count = get_lenght_c(file);
-	i = 0;
-	while (!ft_isdigit(file[count][i]))
-		i++;
-	tmp = ft_split(&file[count][i], ',');
-	if (!tmp)
-		return (free(tab), NULL);
-	tab[0] = ft_atoi(tmp[0]);
-	tab[1] = ft_atoi(tmp[1]);
-	tab[2] = ft_atoi(tmp[2]);
-	clean_array(tmp);
+	if (lenght_tab(tab) > 3)
+		return (clean_array(tab), NULL);
 	return (tab);
 }
 
-static int	get_lenght_c(char **file)
+static int	get_index_c(char **file)
 {
 	int	i;
 	int	count;
@@ -95,8 +137,8 @@ static int	get_lenght_c(char **file)
 			i++;
 		if (ft_isalpha(file[count][i])
 				&& !ft_strncmp(&file[count][i], "C ", 2))
-			break ;
+			return (count);
 		count++;
 	}
-	return (count);
+	return (-1);
 }
