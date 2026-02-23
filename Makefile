@@ -21,6 +21,8 @@ SRCS = main.c extension.c get_file.c clean.c get_texture.c get_map.c\
 		get_rgb.c check_before_map.c file_checking.c get_infos.c\
 		parsing.c
 		
+SRCS = main.c extension.c parsing.c clean.c get_texture.c get_map.c\
+		get_rgb.c dda.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}

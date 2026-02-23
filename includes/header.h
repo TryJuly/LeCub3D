@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 09:38:56 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/23 13:03:48 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,27 @@
 # include "../libft/libft.h"
 # include <math.h>
 # include <fcntl.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
-# define GRIDSIZE 16
+# define GRIDSIZE 32
+# define WIN_H 640
+# define WIN_W 800
+# define PI 3.141592
+
 # define RED 0x00FF0000
-# define BLUE 0x0000FF00
-# define GREEN 0x000000FF
+# define BLUE 0x000000FF
+# define GREEN 0x0000FF00
+# define VOID 0x00000000
+# define BROWN 0x00A52A2A
+# define SKY	0x0071BCE1
+
+# define W 119
+# define S 115
+# define A 97
+# define D 100
+# define LEFT 65361
+# define RIGHT 65363
 
 typedef struct s_vec
 {
@@ -37,6 +53,16 @@ typedef struct s_img
 	int		line_length;
 	int		endian;
 }	t_img;
+
+typedef struct s_key
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	left;
+	int	right;
+}	t_key;
 
 typedef struct s_data
 {
@@ -57,12 +83,41 @@ typedef struct s_data
 	int		y;
 	void	*mlx;
 	void	*win;
+	int		w;
+	int		a;
+	int		s;
+	int		d;
+	int		moving;
 	t_img	player;
 	t_img	mapi;
-	t_vec	pos;
-	float	angle;
 	int		error;
-
+	t_img	walls;
+	t_key	keys;
+	double	pos_x;
+	double	pos_y ;
+	double	dir_x ;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	ray_dirx;
+	double	ray_diry;
+	int		map_x;
+	int		map_y;
+	double	side_d_x;
+	double	side_d_y;
+	double	delta_d_x;
+	double	delta_d_y;
+	double	wall_dist;
+	int		line_h;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	long	time;
+	long	oldtime;
+	double	frames;
+	double	move_speed;
+	double	rot_speed;
 }	t_data;
 
 /*		check				*/
@@ -114,5 +169,16 @@ int	find_player_pos(char **map, t_data *data);
 int	parsing(char *filename, t_data *data);
 void	print_arg_example(void);
 int	get_size_map(char **map, t_data *data);
+
+/*		DDA					*/
+
+int		loop(t_data *data);
+int		key_pressed(int keycode, t_data *data);
+int		key_released(int kcode, t_data *data);
+
+long	get_curr_time(void);
+void	my_pixel_put(t_img *img, int x, int y, int color);
+void	init_data(t_data *data);
+int		win_close(t_data *data);
 
 #endif
