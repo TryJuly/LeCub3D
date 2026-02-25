@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_before_map.c                                 :+:      :+:    :+:   */
+/*   begin_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 08:04:54 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 11:25:42 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:55:12 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_before_map(char **file, t_data *data)
 {
 	char	**tab;
 
-	tab = copy_file_arg(file);
+	tab = copy_file_arg(file, 0, 0);
 	if (!tab)
 		return (1);
 	if (lenght_tab(tab) != 6)
@@ -36,16 +36,16 @@ int	check_before_map(char **file, t_data *data)
 
 static int	fill_argument(char **tab, t_data *data)
 {
-	data->no_texture = get_no_texture(tab);
-	data->so_texture = get_so_texture(tab);
-	data->ea_texture = get_ea_texture(tab);
-	data->we_texture = get_we_texture(tab);
-	data->rgb_floor = get_rgb_f(tab);
-	data->rgb_ceiling = get_rgb_c(tab);
-	if (!data->no_texture || !data->so_texture
-			|| !data->ea_texture || !data->we_texture
-			|| !data->rgb_floor || !data->rgb_ceiling)
-		return (clean_struct_init(data), 1);
+	data->image.no_texture = get_no_texture(tab);
+	data->image.so_texture = get_so_texture(tab);
+	data->image.ea_texture = get_ea_texture(tab);
+	data->image.we_texture = get_we_texture(tab);
+	data->image.rgb_f = get_rgb_color(tab, 'f');
+	data->image.rgb_c = get_rgb_color(tab, 'c');
+	if (!data->image.no_texture || !data->image.so_texture
+			|| !data->image.ea_texture || !data->image.we_texture
+			|| data->image.rgb_f < 0 || data->image.rgb_c < 0)
+		return (clean_texture_init(data), 1);
 	return (0);
 }
 
@@ -71,22 +71,22 @@ static int	is_valide_argument(char **tab)
 	return (0);
 }
 
-char	**copy_file_arg(char **file)
+char	**copy_file_arg(char **file, int len, int count)
 {
-	int		len;
-	size_t	count;
 	char	**tab;
 	char	*tmp;
 
 	len = index_top_map(file);
-	tab = ft_calloc(len + 1, sizeof(char *));
+	if (len == -1)
+		return (NULL);
+	tab = ft_calloc(len + 2, sizeof(char *));
 	if (!tab)
 		return (NULL);
 	count = 0;
 	len--;
-	while (file[len] != 0 && len >= 0)
+	while (len >= 0 && file[len])
 	{
-		if (!ft_strlen(file[len]) || file[len][0] == '\0')
+		if (!file[len] || !ft_strlen(file[len]))
 		{
 			len--;
 			continue;

@@ -6,14 +6,12 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 09:33:32 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:52:31 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	get_index_f(char **file);
-static int	get_index_c(char **file);
 static char	**tab_rgb_color(char **file, int index);
 static int	valide_rgb(char **tab);
 
@@ -23,6 +21,30 @@ int	*get_rgb_f(char **file)
 	char	**tmp;
 	
 	tmp = tab_rgb_color(file, get_index_f(file));
+	if (!tmp)
+		return (NULL);
+	tab = malloc(3 * sizeof(int));
+	if (!tab)
+		return (clean_array(tmp), NULL);
+	if (valide_rgb(tmp))
+		return (clean_array(tmp), free(tab), NULL);
+	tab[0] = ft_atoi(tmp[0]);
+	tab[1] = ft_atoi(tmp[1]);
+	tab[2] = ft_atoi(tmp[2]);
+	if (tab[0] < 0 || tab[1] < 0 || tab[2] < 0)
+		return (clean_array(tmp), free(tab), NULL);
+	if (tab[0] > 255 || tab[1] > 255 || tab[2] > 255)
+		return (clean_array(tmp), free(tab), NULL);
+	clean_array(tmp);
+	return (tab);
+}
+
+int	*get_rgb_c(char **file)
+{
+	int		*tab;
+	char	**tmp;
+	
+	tmp = tab_rgb_color(file, get_index_c(file));
 	if (!tmp)
 		return (NULL);
 	tab = malloc(3 * sizeof(int));
@@ -61,49 +83,6 @@ static int	valide_rgb(char **tab)
 	return (0);
 }
 
-int	*get_rgb_c(char **file)
-{
-	int		*tab;
-	char	**tmp;
-	
-	tmp = tab_rgb_color(file, get_index_c(file));
-	if (!tmp)
-		return (NULL);
-	tab = malloc(3 * sizeof(int));
-	if (!tab)
-		return (clean_array(tmp), NULL);
-	if (valide_rgb(tmp))
-		return (clean_array(tmp), free(tab), NULL);
-	tab[0] = ft_atoi(tmp[0]);
-	tab[1] = ft_atoi(tmp[1]);
-	tab[2] = ft_atoi(tmp[2]);
-	if (tab[0] < 0 || tab[1] < 0 || tab[2] < 0)
-		return (clean_array(tmp), free(tab), NULL);
-	if (tab[0] > 255 || tab[1] > 255 || tab[2] > 255)
-		return (clean_array(tmp), free(tab), NULL);
-	clean_array(tmp);
-	return (tab);
-}
-
-static int	get_index_f(char **file)
-{
-	int	i;
-	int	count;
-
-	count = 0;
-	while (file[count] != 0)
-	{
-		i = 0;
-		while (file[count][i] && !ft_isalpha(file[count][i]))
-			i++;
-		if (ft_isalpha(file[count][i])
-				&& !ft_strncmp(&file[count][i], "F ", 2))
-			return (count);
-		count++;
-	}
-	return (-1);
-}
-
 static char	**tab_rgb_color(char **file, int index)
 {
 	char	**tab;
@@ -122,23 +101,4 @@ static char	**tab_rgb_color(char **file, int index)
 	if (lenght_tab(tab) > 3)
 		return (clean_array(tab), NULL);
 	return (tab);
-}
-
-static int	get_index_c(char **file)
-{
-	int	i;
-	int	count;
-
-	count = 0;
-	while (file[count] != 0)
-	{
-		i = 0;
-		while (file[count][i] && !ft_isalpha(file[count][i]))
-			i++;
-		if (ft_isalpha(file[count][i])
-				&& !ft_strncmp(&file[count][i], "C ", 2))
-			return (count);
-		count++;
-	}
-	return (-1);
 }

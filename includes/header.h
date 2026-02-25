@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
 /*   Updated: 2026/02/25 09:17:02 by cbezenco         ###   ########.fr       */
@@ -65,11 +65,8 @@ typedef struct s_key
 	int	right;
 }	t_key;
 
-typedef struct s_data
+typedef struct s_texture
 {
-	int		w_map;
-	int		h_map;
-	char	**map;
 	t_img	no_img;
 	char	*no_texture;
 	t_img	so_img;
@@ -78,6 +75,15 @@ typedef struct s_data
 	char	*we_texture;
 	t_img	ea_img;
 	char	*ea_texture;
+	int		rgb_c;
+	int		rgb_f;
+}	t_texture;
+
+typedef struct s_data
+{
+	int		w_map;
+	int		h_map;
+	char	**map;
 	int		size;
 	double	text_x;
 	double	text_y;
@@ -123,22 +129,42 @@ typedef struct s_data
 	double	frames;
 	double	move_speed;
 	double	rot_speed;
+	t_texture	image;
 }	t_data;
+
+/*		Get file			*/
+
+void	print_tab(char **tab);
+char	**exctract_file(char *filename, char *tmp, int count);
+
+/*		Begin file check	*/
+
+int		valide_extension(char *filename);
+int		check_after_map(char **file);
+int		is_valide_line(char *line);
+int		check_before_map(char **file, t_data *data);
+
+/*		RGB color			*/
+
+int		*get_rgb_f(char **file);
+int		*get_rgb_c(char **file);
+int		get_index_c(char **file);
+int		get_index_f(char **file);
+int		get_rgb_color(char **file, char type);
+char	*get_hex_color(int red, int green, int blue);
 
 /*		check				*/
 
-int		valide_extension(char *filename);
-int		is_valide_file(char *filename, t_data *data);
-int		is_valide_line(char *line);
+int		parsing(char *filename, t_data *data);
+int		init_texture(t_data *data);
+// int		is_valide_file(char *filename, t_data *data);
 int		is_blank(char *line);
-int		check_before_map(char **file, t_data *data);
-int		get_infos(char **file, t_data *data);
-
-char	**clean_extract(char *filename);
+// int		get_infos(char **file, t_data *data);
+char	**copy_file_arg(char **file, int len, int count);;
+// char	**clean_extract(char *filename);
 // char	**exctract_file(char *filename, char *tmp, int count);
-void	print_tab(char **tab);
 
-/*		About map			*/
+/*		Map					*/
 
 char	**get_map(char **file, int lenght_up, int lenght_down, int count);
 int		index_top_map(char **file);
@@ -150,30 +176,7 @@ char	*get_no_texture(char **file);
 char	*get_so_texture(char **file);
 char	*get_we_texture(char **file);
 char	*get_ea_texture(char **file);
-int		*get_rgb_f(char **file);
-int		*get_rgb_c(char **file);
 
-/*		Clean				*/
-
-void	clean_array(char **array);
-void	clean_array_null(char ***array);
-void	clean_struct_init(t_data *data);
-
-int		valide_extension(char *str);
-// int		lenght_tab(char **tab);
-char	**copy_file_arg(char **file);
-// char	**copy_file_arg(char **file);
-char	**map_validator(char **file, t_data *data);
-int		get_width_map(char **map);
-char	**final_map(char **map);
-int		lenght_tab(char **tab);
-void	clean_struct_init(t_data *data);
-int		check_after_map(char **file);
-int	find_player(char **map, t_data *data);
-int	find_player_pos(char **map, t_data *data);
-int	parsing(char *filename, t_data *data);
-void	print_arg_example(void);
-int	get_size_map(char **map, t_data *data);
 
 /*		DDA					*/
 
@@ -185,5 +188,26 @@ long	get_curr_time(void);
 void	my_pixel_put(t_img *img, int x, int y, int color);
 void	init_data(t_data *data);
 int		win_close(t_data *data);
+
+/*		Tools				*/
+
+int		lenght_tab(char **tab);
+void	ft_strcpy(char *dest, char *src);
+int		get_size_map(char **map, t_data *data);
+int		find_player_pos(char **map, t_data *data);
+int		find_player(char **map, t_data *data);
+int		ft_atoi_base(char *str, char *base);
+
+/*		Announce			*/
+
+void	print_unclosed(void);
+void	print_arg_example(void);
+
+/*		Clean				*/
+
+void	clean_array(char **array);
+void	clean_array_null(char ***array);
+void	clean_texture_init(t_data *data);
+
 
 #endif
