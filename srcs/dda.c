@@ -6,29 +6,22 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 09:17:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/02/23 13:02:51 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:02:49 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	get_color(int num)
+void	move_player(t_data *data);
+
+int	get_color(t_data *data)
 {
 	int	color;
 
 	color = 0;
-	if (num == '1')
-		color = RED;
-	else if (num == 2)
-		color = GREEN;
-	else if (num == 3)
-		color = BLUE;
-	else if (num == 4)
-		color = RED;
-	else if (num == 5)
-		color = BLUE;
-	else
-		color = 0x00FFFFFF;
+	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8) + 2)] * 65536;
+	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8) + 1)] * 256;
+	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8))];
 	return (color);
 }
 
@@ -36,8 +29,9 @@ void	draw_walls(t_data *data, int x)
 {
 	int	draw_start;
 	int	draw_end;
-	int	color;
 	int	y;
+	double	scale;
+	int	color;
 
 	draw_start = -data->line_h / 2 + WIN_H / 2;
 	if (draw_start < 0)
@@ -45,14 +39,13 @@ void	draw_walls(t_data *data, int x)
 	draw_end = data->line_h / 2 + WIN_H / 2;
 	if (draw_end >= WIN_H)
 		draw_end = WIN_H - 1;
-	color = get_color(data->map[data->map_y][data->map_x]);
-	//selon le coté, brightness différentes
-	if (data->side == 1)
-		color = color / 2;
 	//dessiner la vertical stripe
 	y = draw_start;
 	while (y <= draw_end)
 	{
+		scale = y * data->no_img.line_length - (WIN_H) / 2 * data->no_img.line_length + data->line_h * data->no_img.line_length / 2;
+		data->text_y = (int)(((scale * data->size) / data->line_h) / data->no_img.line_length);
+		color = get_color(data);
 		my_pixel_put(&data->walls, x, y, color);
 		y++;
 	}
@@ -106,9 +99,17 @@ void	calculate_ray(t_data *data, int x, double ray_x, double ray_y)
 	}
 	data->hit = 0;
 	if (data->side == 0)
+	{
 		data->wall_dist = data->side_d_x - data->delta_d_x;
+		data->wall_x = data->pos_y + data->wall_dist * ray_y;
+	}
 	else
+	{
 		data->wall_dist = data->side_d_y - data->delta_d_y;
+		data->wall_x = data->pos_x + data->wall_dist * ray_x;
+	}
+	data->wall_x -= floor(data->wall_x);
+	data->text_x = (int)(data->wall_x * data->size);
 	//hauteur de la ligne a dessiner
 	data->line_h = (int)(WIN_H / (data->wall_dist));
 	//calcul du plus haut et du plus bas pixel de la vertical stripe
@@ -150,7 +151,7 @@ int	loop(t_data *data)
 	int		x;
 
 	clean_img(data->walls);
-	//move_player(data);
+	move_player(data);
 	x = 0;
 	while (x < WIN_W)
 	{
@@ -164,89 +165,38 @@ int	loop(t_data *data)
 	data->oldtime = data->time;
 	data->time = get_curr_time();
 	data->frames = (data->time - data->oldtime) / 1000.0;
-	if ((1.0 / data->frames) > 60)
-	{
-		while ((1.0 / data->frames) > 60)
-		{
-			data->time = get_curr_time();
-			data->frames = (data->time - data->oldtime) / 1000.0;
-		}
-	}
+	// if ((1.0 / data->frames) > 60)
+	// {
+	// 	while ((1.0 / data->frames) > 60)
+	// 	{
+	// 		data->time = get_curr_time();
+	// 		data->frames = (data->time - data->oldtime) / 1000.0;
+	// 	}
+	// }
 	//printf("%f\n", (1.0 / data->frames)); // fps counter
 	//redraw the screen
 	mlx_put_image_to_window(data->mlx, data->win, data->walls.img, 0, 0);
 	//speed modifiers
-	data->move_speed = data->frames * 5.0;
-	data->rot_speed = data->frames * 3.0;
+	data->move_speed = data->frames * 2.0;
+	data->rot_speed = data->frames * 2.0;
 	return (0);
 }
 
 int	key_pressed(int	keycode, t_data *data)
 {
-	double	old_dir_x;
-	double	old_plane_x;
-	double	side_dirx;
-	double	side_diry;
-
 	if (keycode == W)
-	{
 		data->keys.w = 1;
-		if (data->map[(int)(data->pos_y + data->dir_y * data->move_speed)][(int)data->pos_x] == '0')
-			data->pos_y += data->dir_y * data->move_speed;
-		if (data->map[(int)data->pos_y][(int)(data->pos_x + data->dir_x * data->move_speed)] == '0')
-			data->pos_x += data->dir_x * data->move_speed;
-	}
 	if (keycode == S)
-	{
 		data->keys.s = 1;
-		if (data->map[(int)(data->pos_y - data->dir_y * data->move_speed)][(int)data->pos_x] == '0')
-			data->pos_y -= data->dir_y * data->move_speed;
-		if (data->map[(int)data->pos_y][(int)(data->pos_x - data->dir_x * data->move_speed)] == '0')
-			data->pos_x -= data->dir_x * data->move_speed;
-	}
 	if (keycode == A)
-	{
 		data->keys.a = 1;
-		side_dirx = data->dir_x * cos(-PI / 2) - data->dir_y * sin(-PI / 2);
-		side_diry = data->dir_x * sin(-PI / 2) + data->dir_y * cos(-PI / 2);
-		if (data->map[(int)(data->pos_y + side_diry * data->move_speed)][(int)(data->pos_x + side_dirx * data->move_speed)] == '0')
-		{
-			data->pos_y += side_diry * data->move_speed;
-			data->pos_x += side_dirx * data->move_speed;
-		}
-	}
 	if (keycode == D)
-	{
 		data->keys.d = 1;
-		side_dirx = data->dir_x * cos(PI / 2) - data->dir_y * sin(PI / 2);
-		side_diry = data->dir_x * sin(PI / 2) + data->dir_y * cos(PI / 2);
-		if (data->map[(int)(data->pos_y + side_diry * data->move_speed)][(int)data->pos_x] == '0')
-			data->pos_y += side_diry * data->move_speed;
-		if (data->map[(int)data->pos_y][(int)(data->pos_x + side_dirx * data->move_speed)] == '0')
-			data->pos_x += side_dirx * data->move_speed;
-	}
 	if (keycode == LEFT)
-	{
 		data->keys.left = 1;
-		old_dir_x = data->dir_x;
-		data->dir_x = data->dir_x * cos(-data->rot_speed) - data->dir_y * sin(-data->rot_speed);
-		data->dir_y = old_dir_x * sin(-data->rot_speed) + data->dir_y * cos(-data->rot_speed);
-		old_plane_x = data->plane_x;
-		data->plane_x = data->plane_x * cos(-data->rot_speed) - data->plane_y * sin(-data->rot_speed);
-		data->plane_y = old_plane_x * sin(-data->rot_speed) + data->plane_y * cos(-data->rot_speed);
-	}
 	if (keycode == RIGHT)
-	{
 		data->keys.right = 1;
-		old_dir_x = data->dir_x;
-		data->dir_x = data->dir_x * cos(data->rot_speed) - data->dir_y * sin(data->rot_speed);
-		data->dir_y = old_dir_x * sin(data->rot_speed) + data->dir_y * cos(data->rot_speed);
-		old_plane_x = data->plane_x;
-		data->plane_x = data->plane_x * cos(data->rot_speed) - data->plane_y * sin(data->rot_speed);
-		data->plane_y = old_plane_x * sin(data->rot_speed) + data->plane_y * cos(data->rot_speed);
-	}
-	printf("%f : plane_x | %f : plane_y | %f : dir_x | %f : dir_y \n", data->plane_x, data->plane_y, data->dir_x, data->dir_y);
-	printf("%f : move_speed | %f : rot_speed\n", data->move_speed, data->rot_speed);
+	//printf("%i : bpp | %i line_len | %i endian | %i size\n", data->no_img.bits_per_pixel, data->no_img.line_length, data->no_img.endian, data->size);
 	return (0);
 }
 
@@ -275,6 +225,66 @@ void	my_pixel_put(t_img *img, int x, int y, int color)
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+}
+
+void	move_player(t_data *data)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+	double	side_dirx;
+	double	side_diry;
+
+	if (data->keys.w == 1)
+	{
+		if (data->map[(int)(data->pos_y + data->dir_y * data->move_speed)][(int)data->pos_x] == '0')
+			data->pos_y += data->dir_y * data->move_speed;
+		if (data->map[(int)data->pos_y][(int)(data->pos_x + data->dir_x * data->move_speed)] == '0')
+			data->pos_x += data->dir_x * data->move_speed;
+	}
+	if (data->keys.s == 1)
+	{
+		if (data->map[(int)(data->pos_y - data->dir_y * data->move_speed)][(int)data->pos_x] == '0')
+			data->pos_y -= data->dir_y * data->move_speed;
+		if (data->map[(int)data->pos_y][(int)(data->pos_x - data->dir_x * data->move_speed)] == '0')
+			data->pos_x -= data->dir_x * data->move_speed;
+	}
+	if (data->keys.a == 1)
+	{
+		side_dirx = data->dir_x * cos(-PI / 2) - data->dir_y * sin(-PI / 2);
+		side_diry = data->dir_x * sin(-PI / 2) + data->dir_y * cos(-PI / 2);
+		if (data->map[(int)(data->pos_y + side_diry * data->move_speed)][(int)(data->pos_x + side_dirx * data->move_speed)] == '0')
+		{
+			data->pos_y += side_diry * data->move_speed;
+			data->pos_x += side_dirx * data->move_speed;
+		}
+	}
+	if (data->keys.d == 1)
+	{
+		side_dirx = data->dir_x * cos(PI / 2) - data->dir_y * sin(PI / 2);
+		side_diry = data->dir_x * sin(PI / 2) + data->dir_y * cos(PI / 2);
+		if (data->map[(int)(data->pos_y + side_diry * data->move_speed)][(int)data->pos_x] == '0')
+			data->pos_y += side_diry * data->move_speed;
+		if (data->map[(int)data->pos_y][(int)(data->pos_x + side_dirx * data->move_speed)] == '0')
+			data->pos_x += side_dirx * data->move_speed;
+	}
+	if (data->keys.left == 1)
+	{
+		old_dir_x = data->dir_x;
+		data->dir_x = data->dir_x * cos(-data->rot_speed) - data->dir_y * sin(-data->rot_speed);
+		data->dir_y = old_dir_x * sin(-data->rot_speed) + data->dir_y * cos(-data->rot_speed);
+		old_plane_x = data->plane_x;
+		data->plane_x = data->plane_x * cos(-data->rot_speed) - data->plane_y * sin(-data->rot_speed);
+		data->plane_y = old_plane_x * sin(-data->rot_speed) + data->plane_y * cos(-data->rot_speed);
+	}
+	if (data->keys.right == 1)
+	{
+		old_dir_x = data->dir_x;
+		data->dir_x = data->dir_x * cos(data->rot_speed) - data->dir_y * sin(data->rot_speed);
+		data->dir_y = old_dir_x * sin(data->rot_speed) + data->dir_y * cos(data->rot_speed);
+		old_plane_x = data->plane_x;
+		data->plane_x = data->plane_x * cos(data->rot_speed) - data->plane_y * sin(data->rot_speed);
+		data->plane_y = old_plane_x * sin(data->rot_speed) + data->plane_y * cos(data->rot_speed);
+	}
 }
 
 // void	print_player(t_data *data, t_img *img, int color)

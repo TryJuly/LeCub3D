@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 09:58:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:17:02 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/time.h>
 
 # define GRIDSIZE 32
+# define TEXSIZE 64
 # define WIN_H 640
 # define WIN_W 800
 # define PI 3.141592
@@ -30,7 +31,7 @@
 # define GREEN 0x0000FF00
 # define VOID 0x00000000
 # define BROWN 0x00A52A2A
-# define SKY	0x0071BCE1
+# define SKY 0x0071BCE1
 
 # define W 119
 # define S 115
@@ -83,6 +84,11 @@ typedef struct s_data
 	int		w_map;
 	int		h_map;
 	char	**map;
+	int		size;
+	double	text_x;
+	double	text_y;
+	int		*rgb_ceiling;
+	int		*rgb_floor;
 	int		x;
 	int		y;
 	void	*mlx;
@@ -112,6 +118,7 @@ typedef struct s_data
 	double	delta_d_x;
 	double	delta_d_y;
 	double	wall_dist;
+	double	wall_x;
 	int		line_h;
 	int		step_x;
 	int		step_y;
@@ -159,7 +166,7 @@ char	**copy_file_arg(char **file, int len, int count);;
 
 /*		Map					*/
 
-char	**get_map(char **file, int	lenght_up, int lenght_down, int count);
+char	**get_map(char **file, int lenght_up, int lenght_down, int count);
 int		index_top_map(char **file);
 int		index_down_map(char **file);
 
