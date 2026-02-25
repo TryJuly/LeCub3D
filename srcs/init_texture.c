@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:30:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 10:08:41 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:15:22 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	init_texture(t_data *data)
 static int	init_texture_no(t_data *data)
 {
 	void	*ptr;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 
-	width = WIN_W;
-	height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.no_texture, &width, &height);
+	// width = WIN_W;
+	// height = WIN_H;
+	ptr = mlx_xpm_file_to_image(data->mlx, data->image.no_texture, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -61,12 +61,12 @@ static int	init_texture_no(t_data *data)
 static int	init_texture_so(t_data *data)
 {
 	void	*ptr;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 
-	width = WIN_W;
-	height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.so_texture, &width, &height);
+	// width = WIN_W;
+	// height = WIN_H;
+	ptr = mlx_xpm_file_to_image(data->mlx, data->image.so_texture, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -84,12 +84,12 @@ static int	init_texture_so(t_data *data)
 static int	init_texture_we(t_data *data)
 {
 	void	*ptr;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 
-	width = WIN_W;
-	height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.we_texture, &width, &height);
+	// width = WIN_W;
+	// height = WIN_H;
+	ptr = mlx_xpm_file_to_image(data->mlx, data->image.we_texture, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -107,12 +107,12 @@ static int	init_texture_we(t_data *data)
 static int	init_texture_ea(t_data *data)
 {
 	void	*ptr;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 
-	width = WIN_W;
-	height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.ea_texture, &width, &height);
+	// width = WIN_W;
+	// height = WIN_H;
+	ptr = mlx_xpm_file_to_image(data->mlx, data->image.ea_texture, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);

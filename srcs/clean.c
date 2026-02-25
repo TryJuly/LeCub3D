@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:09:13 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 10:03:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:44:07 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	clean_array(char **array)
 	if (!array)
 		return ;
 	count = 0;
-	while (array[count] !=  0)
+	while (array[count] != 0)
 		free(array[count++]);
 	free(array);
 	return ;
@@ -32,7 +32,7 @@ void	clean_array_null(char ***array)
 	if (!*(array) || !*(*array))
 		return ;
 	count = 0;
-	while ((*array)[count] !=  0)
+	while ((*array)[count] != 0)
 		free((*array)[count++]);
 	free(*array);
 	(*array) = NULL;
