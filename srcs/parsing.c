@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:45:09 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 11:35:00 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:05:29 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 static int	check_map(char **file, t_data *data);
 static int	flood_fill(char **map, int x, int y, t_data *data);
-static void	print_unclosed(void);
 
 int	parsing(char *filename, t_data *data)
 {
 	char	**file;
 
+	ft_bzero(data, sizeof(data));
 	if (valide_extension(filename))
 		return (1);
-	file = clean_extract(filename);
+	file = exctract_file(filename, 0, 0);
 	if (!file)
 		return (1);
 	if (check_before_map(file, data))
 		return (clean_array(file), 1);
 	if (check_after_map(file))
-		return (clean_struct_init(data), clean_array(file), 1);
+		return (clean_texture_init(data), clean_array(file), 1);
 	if (check_map(file, data))
-		return (clean_struct_init(data), clean_array(file), 1);
+		return (clean_texture_init(data), clean_array(file), 1);
+	clean_array(file);
 	return (0);
 }
 
@@ -48,20 +49,13 @@ static int	check_map(char **file, t_data *data)
 	cpy = get_map(file, 0, 0, 0);
 	if (!cpy)
 		return (clean_array(data->map), 1);
+	// print_tab(cpy);
 	data->error = 0;
 	if (flood_fill(cpy, data->x, data->y, data))
-		return (clean_array(cpy), print_unclosed(), 1);
+		return (print_tab(cpy), clean_array(cpy), print_unclosed(), 1);
+	// print_tab(cpy);
 	clean_array_null(&cpy);
 	return (0);
-}
-
-static void	print_unclosed(void)
-{
-	printf("Error\n");
-	printf("The map provided in the file is not enclosed by walls, ");
-	printf("or the ground is missing.\n");
-	printf("Please redraw the map before starting the game.\n");
-	return ;
 }
 
 static int	flood_fill(char **map, int x, int y, t_data *data)

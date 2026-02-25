@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:50:14 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 13:08:46 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 07:46:52 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,19 @@ static int	is_valide_line_map(char *line);
 static int	find_max_len(char **file, int start, int end);
 static char	*replace_tab_line(char *line, int line_size);
 static int	replace_tab(char ***map, int line_size);
+void	ft_strcpy(char *dest, char *src);
 
 char	**get_map(char **file, int	lenght_up, int lenght_down, int count)
 {
 	char	**map;
 	int		line_size;
+	int		len;
 
 	lenght_up = index_top_map(file);
 	lenght_down = index_down_map(file);
+	len = lenght_down - lenght_up;
 	line_size = find_max_len(file, lenght_up, lenght_down) + 2;
-	map = ft_calloc(((lenght_down - lenght_up) + 2), sizeof(char *));
+	map = malloc((len + 2) * sizeof(char *));
 	if (!map)
 		return (NULL);
 	count = 0;
@@ -35,7 +38,7 @@ char	**get_map(char **file, int	lenght_up, int lenght_down, int count)
 		map[count] = ft_calloc((line_size + 1), sizeof(char));
 		if (!map[count])
 			return (clean_array(map), NULL);
-		ft_strlcpy(map[count], file[lenght_up], ft_strlen(file[lenght_up]) + 1);
+		ft_strcpy(map[count], file[lenght_up]);
 		count++;
 		lenght_up++;
 	}
@@ -43,6 +46,20 @@ char	**get_map(char **file, int	lenght_up, int lenght_down, int count)
 	if (replace_tab(&map, line_size))
 		return (clean_array(map), NULL);
 	return (map);
+}
+
+void	ft_strcpy(char *dest, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return ;
 }
 
 static int	replace_tab(char ***map, int line_size)

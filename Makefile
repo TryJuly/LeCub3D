@@ -18,11 +18,9 @@ else ifeq (${UNAME_S}, Darwin)
 endif
 
 SRCS = main.c extension.c get_file.c clean.c get_texture.c get_map.c\
-		get_rgb.c check_before_map.c file_checking.c get_infos.c\
-		parsing.c
-		
-SRCS = main.c extension.c parsing.c clean.c get_texture.c get_map.c\
-		get_rgb.c dda.c
+		get_rgb.c begin_file.c file_checking.c get_infos.c\
+		parsing.c dda.c convert_rgb.c announce.c init_texture.c\
+		convert_rgb_2.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}

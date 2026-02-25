@@ -19,7 +19,7 @@
 # include <stdint.h>
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 50
+# define BUFFER_SIZE 20
 #endif
 
 typedef struct s_list
