@@ -22,6 +22,9 @@ int	init_texture(t_data *data)
 	int	valide;
 
 	valide = 0;
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (clean_texture_init(data), 1);
 	if (init_texture_no(data))
 		valide = 1;
 	if (init_texture_so(data))
@@ -31,7 +34,7 @@ int	init_texture(t_data *data)
 	if (init_texture_we(data))
 		valide = 1;
 	if (valide == 1)
-		return (clean_texture_init(data), 1);
+		return (clean_texture_init(data), free(data->mlx), 1);
 	return (0);
 }
 

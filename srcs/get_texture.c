@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:34:13 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 11:07:22 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:21:07 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*get_no_texture(char **file)
 		}
 		count++;
 	}
+	ft_putstr_fd("Error\nNo texture not found\n", 2);
 	return (NULL);
 }
 
@@ -61,6 +62,7 @@ char	*get_so_texture(char **file)
 		}
 		count++;
 	}
+	ft_putstr_fd("Error\nSo texture not found\n", 2);
 	return (NULL);
 }
 
@@ -87,6 +89,7 @@ char	*get_we_texture(char **file)
 		}
 		count++;
 	}
+	ft_putstr_fd("Error\nWe texture not found\n", 2);
 	return (NULL);
 }
 
@@ -114,5 +117,6 @@ char	*get_ea_texture(char **file)
 		}
 		count++;
 	}
+	ft_putstr_fd("Error\nEa texture not found\n", 2);
 	return (NULL);
 }

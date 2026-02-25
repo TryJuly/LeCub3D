@@ -1,0 +1,13 @@
+NO ./greystone.xpm
+SO ./greystone.xpm
+WE ./greystone.xpm
+EA ./greystone.xpm
+
+F 30,30,30
+C 120,120,255
+
+111111
+100001
+10X001
+100001
+111111
