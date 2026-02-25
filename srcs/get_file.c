@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:05:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 08:19:34 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:20:22 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ char	**exctract_file(char *filename, char *tmp, int count)
 		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-	{
-		printf("Error\n Can't open file : %s\n", filename);
-		return (free(out_file), NULL);
-	}
+		return (printf("Error\nfile : %s\n", filename), free(out_file), NULL);
 	while (1)
 	{
 		tmp = get_next_line(fd);
@@ -42,6 +39,13 @@ char	**exctract_file(char *filename, char *tmp, int count)
 	out_file[count] = 0;
 	return (close(fd), out_file);
 }
+
+// char	*propper(char *str)
+// {
+// 	char	*tmp;
+
+// 	tmp = ft_strtrim(str, "\n\r")
+// }
 
 void	print_tab(char **tab)
 {

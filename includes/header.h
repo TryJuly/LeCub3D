@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 09:17:02 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:05:30 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,11 @@ char	**copy_file_arg(char **file, int len, int count);;
 char	**get_map(char **file, int lenght_up, int lenght_down, int count);
 int		index_top_map(char **file);
 int		index_down_map(char **file);
+int		is_valide_line_map(char *line);
+int		map_wall_left(char **map);
+int		map_wall_right(char **map);
+int		map_wall_up(char **map);
+int		map_wall_down(char **map);
 
 /*		Get texture path	*/
 
@@ -201,11 +206,13 @@ int		ft_atoi_base(char *str, char *base);
 /*		Announce			*/
 
 void	print_unclosed(void);
-void	print_arg_example(void);
+void	print_example(void);
 
 /*		Clean				*/
 
 void	clean_array(char **array);
+void	clean_data_end(t_data *data);
+void	clean_texture_map(t_data *data);
 void	clean_array_null(char ***array);
 void	clean_texture_init(t_data *data);
 

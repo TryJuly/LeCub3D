@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 09:20:10 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 09:58:46 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:36:43 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	get_rgb_color(char **file, char type)
 	else if (type == 'f')
 		color = get_rgb_f(file);
 	if (!color)
+	{
+		ft_putstr_fd("Error\nRGB color invalide\n", 2);
+		printf("\n(Info) R,G,B colors in range [0,255]: 0, 255, 255\n");
 		return (-1);
+	}
 	result = create_rgb(color[0], color[1], color[2]);
 	free(color);
 	return (result);

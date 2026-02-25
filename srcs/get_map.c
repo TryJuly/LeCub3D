@@ -6,14 +6,13 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 10:50:14 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 07:46:52 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:23:33 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 static int	map_set(char c);
-static int	is_valide_line_map(char *line);
 static int	find_max_len(char **file, int start, int end);
 static char	*replace_tab_line(char *line, int line_size);
 static int	replace_tab(char ***map, int line_size);
@@ -53,7 +52,7 @@ void	ft_strcpy(char *dest, char *src)
 	int	i;
 
 	i = 0;
-	while (src[i])
+	while (src[i] && src[i] != '\n' && src[i] != '\r')
 	{
 		dest[i] = src[i];
 		i++;
@@ -73,6 +72,7 @@ static int	replace_tab(char ***map, int line_size)
 		tmp = replace_tab_line((*map)[count], line_size);
 		if (!tmp)
 			return (1);
+		free((*map)[count]);
 		(*map)[count] = tmp;
 		count++;
 	}
@@ -160,10 +160,12 @@ int	index_top_map(char **file)
 			return (count);
 		count++;
 	}
+	ft_putstr_fd("Error\nMap not found\n", 2);
+	// print_example();
 	return (-1);
 }
 
-static int	is_valide_line_map(char *line)
+int	is_valide_line_map(char *line)
 {
 	int	count;
 	int	valide;
@@ -208,5 +210,85 @@ static int	map_set(char c)
 		return (0);
 	else if (c == '\t')
 		return (0);
+	else if (c == '\r')
+		return (0);
 	return (1);
+}
+
+int	map_wall_left(char **map)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	while (map[count])
+	{
+		i = 0;
+		while (map[count][i])
+		{
+			if (map[count][i] != '1' && map[count][i] != ' ')
+				return (1);
+			if (map[count][i] == '1')
+				break ;
+			i++;
+		}
+		count++;
+	}
+	return (0);
+}
+
+int	map_wall_right(char **map)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	while (map[count])
+	{
+		i = ft_strlen(map[count]);
+		while (i >= 0 && map[count][i])
+		{
+			if (map[count][i] != '1' && map[count][i] != ' ')
+				return (1);
+			if (map[count][i] == '1')
+				break ;
+			i--;
+		}
+		count++;
+	}
+	return (0);
+}
+
+int	map_wall_up(char **map)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (map[count][i])
+	{
+		if (map[count][i] != '1' && map[count][i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	map_wall_down(char **map)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (map[count])
+		count++;
+	while (map[count][i])
+	{
+		if (map[count][i] != '1' && map[count][i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
 }

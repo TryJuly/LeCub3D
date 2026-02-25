@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:38:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 09:34:06 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:42:01 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	is_valide_line(char *line)
 		count++;
 	if (!line || line[count] == '\0')
 		return (0);
-	if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "NO", 2))
+	if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "NO ", 3))
 		return (0);
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "SO", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "SO ", 3))
 		return (0);
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "WE", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "WE ", 3))
 		return (0);
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "EA", 2))
+	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "EA ", 3))
 		return (0);
 	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "F ", 2))
 		return (0);
