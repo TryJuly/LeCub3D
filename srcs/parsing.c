@@ -6,12 +6,13 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:45:09 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 10:05:29 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:07:40 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+int			valide_map(char **file);
 static int	check_map(char **file, t_data *data);
 static int	flood_fill(char **map, int x, int y, t_data *data);
 
@@ -26,12 +27,34 @@ int	parsing(char *filename, t_data *data)
 	if (!file)
 		return (1);
 	if (check_before_map(file, data))
-		return (clean_array(file), 1);
+		return (clean_array_null(&file), 1);
+	if (valide_map(file))
+		return (clean_texture_init(data), clean_array_null(&file), 1);
 	if (check_after_map(file))
-		return (clean_texture_init(data), clean_array(file), 1);
+		return (clean_texture_init(data), clean_array_null(&file), 1);
 	if (check_map(file, data))
-		return (clean_texture_init(data), clean_array(file), 1);
-	clean_array(file);
+		return (clean_texture_map(data), clean_array_null(&file), 1);
+	clean_array_null(&file);
+	return (0);
+}
+
+int	valide_map(char **file)
+{
+	int	up;
+
+	up = index_top_map(file);
+	while (file[up] != 0)
+	{
+		if (is_valide_line_map(file[up]) && file[up + 1] && is_valide_line_map(file[up + 1]))
+		{
+			ft_putstr_fd("Error\nInvalide case in a map\n", 2);
+			printf("The map must be composed of only 6 possible characters:\n");
+			printf("0 for an empty space, 1 for a wall, and N,S,E or W for the player "); 
+			printf("start position and spawning orientation.\n");
+			return (1);
+		}
+		up++;
+	}
 	return (0);
 }
 
@@ -43,17 +66,18 @@ static int	check_map(char **file, t_data *data)
 	if (!data->map)
 		return (1);
 	if (find_player(data->map, data))
-		return (clean_array(data->map), 1);
+		return (clean_array_null(&data->map), 1);
 	find_player_pos(data->map, data);
 	get_size_map(data->map, data);
 	cpy = get_map(file, 0, 0, 0);
 	if (!cpy)
-		return (clean_array(data->map), 1);
-	// print_tab(cpy);
+		return (clean_array_null(&data->map), 1);
 	data->error = 0;
 	if (flood_fill(cpy, data->x, data->y, data))
-		return (print_tab(cpy), clean_array(cpy), print_unclosed(), 1);
-	// print_tab(cpy);
+		return (clean_array_null(&cpy), print_unclosed(), 1);
+	if (map_wall_up(data->map) || map_wall_down(data->map)
+		|| map_wall_left(data->map) || map_wall_right(data->map))
+		return (clean_array_null(&cpy), print_unclosed(), 1);
 	clean_array_null(&cpy);
 	return (0);
 }

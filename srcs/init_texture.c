@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:30:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 10:08:41 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:44:31 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	init_texture(t_data *data)
 	int	valide;
 
 	valide = 0;
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (clean_texture_init(data), 1);
 	if (init_texture_no(data))
 		valide = 1;
 	if (init_texture_so(data))
@@ -31,7 +34,7 @@ int	init_texture(t_data *data)
 	if (init_texture_we(data))
 		valide = 1;
 	if (valide == 1)
-		return (clean_texture_init(data), 1);
+		return (clean_texture_init(data), free(data->mlx), 1);
 	return (0);
 }
 
