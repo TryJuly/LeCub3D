@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 10:13:34 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:25:43 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int ac, char **av)
 	data.win = mlx_new_window(data.mlx, WIN_W, WIN_H, "Cub3D");
 	data.walls.img = mlx_new_image(data.mlx, WIN_W, WIN_H);
 	data.walls.addr = mlx_get_data_addr(data.walls.img, &data.walls.bits_per_pixel, &data.walls.line_length, &data.walls.endian);
-	data.no_img.img = mlx_xpm_file_to_image(data.mlx, "textures/mur.xpm", &data.size, &data.size);
-	data.no_img.addr = mlx_get_data_addr(data.no_img.img, &data.no_img.bits_per_pixel, &data.no_img.line_length, &data.no_img.endian);
+	data.image.no_img.img = mlx_xpm_file_to_image(data.mlx, "textures/mur.xpm", &data.size, &data.size);
+	data.image.no_img.addr = mlx_get_data_addr(data.image.no_img.img, &data.image.no_img.bits_per_pixel, &data.image.no_img.line_length, &data.image.no_img.endian);
 	init_data(&data);
 	mlx_hook(data.win, 2, (1L << 0), key_pressed, &data);
 	mlx_hook(data.win, 3, (1L << 1), key_released, &data);

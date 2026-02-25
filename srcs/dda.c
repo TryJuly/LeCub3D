@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 09:17:12 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/02/25 10:02:49 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:26:53 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	get_color(t_data *data)
 	int	color;
 
 	color = 0;
-	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8) + 2)] * 65536;
-	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8) + 1)] * 256;
-	color += data->no_img.addr[(int)(data->text_y * data->no_img.line_length + data->text_x * (data->no_img.bits_per_pixel / 8))];
+	color += data->image.no_img.addr[(int)(data->text_y * data->image.no_img.line_length + data->text_x * (data->image.no_img.bits_per_pixel / 8) + 2)] * 65536;
+	color += data->image.no_img.addr[(int)(data->text_y * data->image.no_img.line_length + data->text_x * (data->image.no_img.bits_per_pixel / 8) + 1)] * 256;
+	color += data->image.no_img.addr[(int)(data->text_y * data->image.no_img.line_length + data->text_x * (data->image.no_img.bits_per_pixel / 8))];
 	return (color);
 }
 
@@ -43,8 +43,8 @@ void	draw_walls(t_data *data, int x)
 	y = draw_start;
 	while (y <= draw_end)
 	{
-		scale = y * data->no_img.line_length - (WIN_H) / 2 * data->no_img.line_length + data->line_h * data->no_img.line_length / 2;
-		data->text_y = (int)(((scale * data->size) / data->line_h) / data->no_img.line_length);
+		scale = y * data->image.no_img.line_length - (WIN_H) / 2 * data->image.no_img.line_length + data->line_h * data->image.no_img.line_length / 2;
+		data->text_y = (int)(((scale * data->size) / data->line_h) / data->image.no_img.line_length);
 		color = get_color(data);
 		my_pixel_put(&data->walls, x, y, color);
 		y++;
