@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
+/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:05:30 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/25 15:16:41 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,16 @@
 # define WIN_W 800
 # define PI 3.141592
 
-# define RED 0x00FF0000
-# define BLUE 0x000000FF
-# define GREEN 0x0000FF00
-# define VOID 0x00000000
-# define BROWN 0x00A52A2A
-# define SKY 0x0071BCE1
-
 # define W 119
 # define S 115
 # define A 97
 # define D 100
 # define LEFT 65361
 # define RIGHT 65363
+# define ESC 65307
 
-typedef struct s_vec
-{
-	float	x;
-	float	y;
-}	t_vec;
+# define MOVE_SPEED 4.0
+# define ROT_SPEED 2.0
 
 typedef struct s_img
 {
@@ -81,54 +72,54 @@ typedef struct s_texture
 
 typedef struct s_data
 {
-	int		w_map;
-	int		h_map;
-	char	**map;
-	int		size;
-	double	text_x;
-	double	text_y;
-	int		*rgb_ceiling;
-	int		*rgb_floor;
-	int		x;
-	int		y;
-	void	*mlx;
-	void	*win;
-	int		w;
-	int		a;
-	int		s;
-	int		d;
-	int		moving;
-	t_img	player;
-	t_img	mapi;
-	int		error;
-	t_img	walls;
-	t_key	keys;
-	double	pos_x;
-	double	pos_y ;
-	double	dir_x ;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	ray_dirx;
-	double	ray_diry;
-	int		map_x;
-	int		map_y;
-	double	side_d_x;
-	double	side_d_y;
-	double	delta_d_x;
-	double	delta_d_y;
-	double	wall_dist;
-	double	wall_x;
-	int		line_h;
-	int		step_x;
-	int		step_y;
-	int		hit;
-	int		side;
-	long	time;
-	long	oldtime;
-	double	frames;
-	double	move_speed;
-	double	rot_speed;
+	int			w_map;
+	int			h_map;
+	char		**map;
+	int			size;
+	double		text_x;
+	double		text_y;
+	int			*rgb_ceiling;
+	int			*rgb_floor;
+	int			x;
+	int			y;
+	void		*mlx;
+	void		*win;
+	int			w;
+	int			a;
+	int			s;
+	int			d;
+	int			moving;
+	t_img		player;
+	t_img		mapi;
+	int			error;
+	t_img		walls;
+	t_key		keys;
+	double		pos_x;
+	double		pos_y ;
+	double		dir_x ;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+	double		ray_dirx;
+	double		ray_diry;
+	int			map_x;
+	int			map_y;
+	double		side_d_x;
+	double		side_d_y;
+	double		delta_d_x;
+	double		delta_d_y;
+	double		wall_dist;
+	double		wall_x;
+	int			line_h;
+	int			step_x;
+	int			step_y;
+	int			hit;
+	int			side;
+	long		time;
+	long		oldtime;
+	double		frames;
+	double		move_speed;
+	double		rot_speed;
 	t_texture	image;
 }	t_data;
 
@@ -193,6 +184,10 @@ long	get_curr_time(void);
 void	my_pixel_put(t_img *img, int x, int y, int color);
 void	init_data(t_data *data);
 int		win_close(t_data *data);
+void	draw_walls(t_data *data, int x);
+void	move_player(t_data *data);
+void	calculate_ray(t_data *data, int x, double ray_x, double ray_y);
+void	clean_img(t_img img, t_texture color);
 
 /*		Tools				*/
 
