@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 13:02:55 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:13:34 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 
 int	main(int ac, char **av)
 {
-	char	**tab;
 	t_data	data;
 
-	(void)ac;
-	(void)av;
-	tab = clean_extract(av[1]);
-	if (!tab)
-		return (1);
-	data.map = get_map(tab);
-	if (!data.map)
+	if (ac != 2)
+		return (printf("Error\nArgument missing\n"), 1);
+	if (parsing(av[1], &data))
 		return (1);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIN_W, WIN_H, "Cub3D");
 	data.walls.img = mlx_new_image(data.mlx, WIN_W, WIN_H);
 	data.walls.addr = mlx_get_data_addr(data.walls.img, &data.walls.bits_per_pixel, &data.walls.line_length, &data.walls.endian);
-	//print_map(&data);
+	data.no_img.img = mlx_xpm_file_to_image(data.mlx, "textures/mur.xpm", &data.size, &data.size);
+	data.no_img.addr = mlx_get_data_addr(data.no_img.img, &data.no_img.bits_per_pixel, &data.no_img.line_length, &data.no_img.endian);
 	init_data(&data);
 	mlx_hook(data.win, 2, (1L << 0), key_pressed, &data);
 	mlx_hook(data.win, 3, (1L << 1), key_released, &data);
@@ -38,14 +34,6 @@ int	main(int ac, char **av)
 	mlx_loop(data.mlx);
 	return (0);
 }
-
-// void	my_pixel_put(t_img *img, int x, int y, int color)
-// {
-// 	char	*dst;
-
-// 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-// 	*(unsigned int *)dst = color;
-// }
 
 // void	print_player(t_img *img, t_data *data, int color)
 // {

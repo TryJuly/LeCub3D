@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/23 13:03:48 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:17:02 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/time.h>
 
 # define GRIDSIZE 32
+# define TEXSIZE 64
 # define WIN_H 640
 # define WIN_W 800
 # define PI 3.141592
@@ -30,7 +31,7 @@
 # define GREEN 0x0000FF00
 # define VOID 0x00000000
 # define BROWN 0x00A52A2A
-# define SKY	0x0071BCE1
+# define SKY 0x0071BCE1
 
 # define W 119
 # define S 115
@@ -77,6 +78,9 @@ typedef struct s_data
 	char	*we_texture;
 	t_img	ea_img;
 	char	*ea_texture;
+	int		size;
+	double	text_x;
+	double	text_y;
 	int		*rgb_ceiling;
 	int		*rgb_floor;
 	int		x;
@@ -108,6 +112,7 @@ typedef struct s_data
 	double	delta_d_x;
 	double	delta_d_y;
 	double	wall_dist;
+	double	wall_x;
 	int		line_h;
 	int		step_x;
 	int		step_y;
@@ -135,7 +140,7 @@ void	print_tab(char **tab);
 
 /*		About map			*/
 
-char	**get_map(char **file, int	lenght_up, int lenght_down, int count);
+char	**get_map(char **file, int lenght_up, int lenght_down, int count);
 int		index_top_map(char **file);
 int		index_down_map(char **file);
 
