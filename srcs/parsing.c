@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:45:09 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:29:20 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:32:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ static int	check_map(char **file, t_data *data)
 	if (flood_fill(cpy, data->x, data->y, data))
 		return (clean_array_null(&cpy), print_unclosed(), 1);
 	if (map_wall_up(data->map) || map_wall_down(data->map)
-		|| map_wall_left(data->map) || map_wall_right(data->map))
+		|| map_wall_left(data->map) || map_wall_right(data->map)
+		|| map_is_walkable(data->map))
 		return (clean_array_null(&cpy), print_unclosed(), 1);
 	clean_array_null(&cpy);
 	return (0);
