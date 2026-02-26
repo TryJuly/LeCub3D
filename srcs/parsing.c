@@ -6,12 +6,13 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:45:09 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:07:40 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:32:58 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+// int	valide_map(char **file);
 int			valide_map(char **file);
 static int	check_map(char **file, t_data *data);
 static int	flood_fill(char **map, int x, int y, t_data *data);
@@ -41,15 +42,19 @@ int	parsing(char *filename, t_data *data)
 int	valide_map(char **file)
 {
 	int	up;
+	int	down;
 
 	up = index_top_map(file);
-	while (file[up] != 0)
+	down = index_down_map(file);
+	while (file[up] != 0 && up < down)
 	{
-		if (is_valide_line_map(file[up]) && file[up + 1] && is_valide_line_map(file[up + 1]))
+		if (is_valide_line_map(file[up]))
 		{
 			ft_putstr_fd("Error\nInvalide case in a map\n", 2);
-			printf("The map must be composed of only 6 possible characters:\n");
-			printf("0 for an empty space, 1 for a wall, and N,S,E or W for the player "); 
+			printf("The map must be composed of only 6 possible characters:");
+			printf("\n0 for an empty space\n");
+			printf("1 for a wall\n");
+			printf("one of N,S,E or W for the player\n");
 			printf("start position and spawning orientation.\n");
 			return (1);
 		}
@@ -76,7 +81,8 @@ static int	check_map(char **file, t_data *data)
 	if (flood_fill(cpy, data->x, data->y, data))
 		return (clean_array_null(&cpy), print_unclosed(), 1);
 	if (map_wall_up(data->map) || map_wall_down(data->map)
-		|| map_wall_left(data->map) || map_wall_right(data->map))
+		|| map_wall_left(data->map) || map_wall_right(data->map)
+		|| map_is_walkable(data->map))
 		return (clean_array_null(&cpy), print_unclosed(), 1);
 	clean_array_null(&cpy);
 	return (0);
@@ -105,3 +111,84 @@ static int	flood_fill(char **map, int x, int y, t_data *data)
 		return (1);
 	return (0);
 }
+
+// int	check_map_characters(char **file, int start)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = start;
+// 	while (file[i])
+// 	{
+// 		j = 0;
+// 		while (file[i][j])
+// 		{
+// 			if (map_set(file[i][j]))
+// 			{
+// 				ft_putstr_fd("Error\nInvalid character in map\n", 2);
+// 				return (1);
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// int	is_walkable(char c)
+// {
+// 	return (c == '0' || c == 'N' || c == 'S'
+// 		|| c == 'E' || c == 'W');
+// }
+
+// int	is_space_or_void(char **map, int i, int j)
+// {
+// 	if (i < 0 || j < 0 || !map[i])
+// 		return (1);
+// 	if (j >= (int)ft_strlen(map[i]))
+// 		return (1);
+// 	if (map[i][j] == ' ')
+// 		return (1);
+// 	return (0);
+// }
+
+// int	check_map_closed(char **map, int start)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = start;
+// 	while (map[i])
+// 	{
+// 		j = 0;
+// 		while (map[i][j])
+// 		{
+// 			if (is_walkable(map[i][j]))
+// 			{
+// 				if (is_space_or_void(map, i - 1, j)
+// 					|| is_space_or_void(map, i + 1, j)
+// 					|| is_space_or_void(map, i, j - 1)
+// 					|| is_space_or_void(map, i, j + 1))
+// 				{
+// 					ft_putstr_fd("Error\nMap is not closed\n", 2);
+// 					return (1);
+// 				}
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// int	valide_map(char **file)
+// {
+// 	int	start;
+
+// 	start = index_top_map(file);
+// 	if (check_map_characters(file, start))
+// 		return (1);
+// 	if (check_map_closed(file, start))
+// 		return (1);
+// 	return (0);
+// }

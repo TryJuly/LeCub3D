@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
 /*   Updated: 2026/02/26 13:29:01 by cbezenco         ###   ########.fr       */
@@ -20,7 +20,8 @@ int	main(int ac, char **av)
 		return (printf("Error\nArgument missing\n"), 1);
 	if (parsing(av[1], &data))
 		return (1);
-	init_texture(&data);
+	if (init_texture(&data))
+		return (1);
 	data.win = mlx_new_window(data.mlx, WIN_W, WIN_H, "Cub3D");
 	data.walls.img = mlx_new_image(data.mlx, WIN_W, WIN_H);
 	data.walls.addr = mlx_get_data_addr(data.walls.img,

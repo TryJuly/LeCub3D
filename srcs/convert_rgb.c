@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 09:56:05 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/24 10:21:01 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 07:56:34 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_hex_color(int red, int green, int blue)
 	b = get_hex(blue);
 	if (!b)
 		return (free(r), free(g), NULL);
-	res = sticky_function(r, g, b);	
+	res = sticky_function(r, g, b);
 	free(r);
 	free(g);
 	free(b);
@@ -49,7 +49,7 @@ static char	*sticky_function(char *red, char *green, char *blue)
 {
 	char	*tmp;
 	char	*res;
-	
+
 	if (!red || !green || !blue)
 		return (NULL);
 	tmp = ft_strjoin(red, green);
@@ -73,10 +73,9 @@ static char	*add_prefix(char *str)
 	res = ft_strjoin(tmp, str);
 	free(tmp);
 	if (!res)
-		return  (NULL);
+		return (NULL);
 	return (res);
 }
-
 
 static char	*get_hex(int nb)
 {

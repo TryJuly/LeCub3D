@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 08:04:54 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 13:54:04 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 10:22:25 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	is_valide_argument(char **tab);
 static int	check_double_argument(char **tab);
-static char	get_identifier(char *line);
 static int	fill_argument(char **tab, t_data *data);
 
 int	check_before_map(char **file, t_data *data)
@@ -25,7 +24,10 @@ int	check_before_map(char **file, t_data *data)
 	if (!tab)
 		return (1);
 	if (lenght_tab(tab) != 6)
+	{
+		ft_putstr_fd("Error\nArgument not found\n", 2);
 		return (clean_array(tab), print_example(), 1);
+	}
 	if (is_valide_argument(tab))
 		return (clean_array(tab), print_example(), 1);
 	if (fill_argument(tab, data))
@@ -41,7 +43,7 @@ static int	fill_argument(char **tab, t_data *data)
 	data->image.ea_texture = get_ea_texture(tab);
 	data->image.we_texture = get_we_texture(tab);
 	if (!data->image.no_texture || !data->image.so_texture
-			|| !data->image.ea_texture || !data->image.we_texture)
+		|| !data->image.ea_texture || !data->image.we_texture)
 		return (clean_texture_init(data), 1);
 	data->image.rgb_f = get_rgb_color(tab, 'f');
 	data->image.rgb_c = get_rgb_color(tab, 'c');
@@ -89,10 +91,10 @@ char	**copy_file_arg(char **file, int len, int count)
 	len--;
 	while (len >= 0 && file[len])
 	{
-		if (!file[len] || !ft_strlen(file[len]))
+		if (!file[len] || !is_wspace_line(file[len]))
 		{
 			len--;
-			continue;
+			continue ;
 		}
 		tmp = ft_strdup(file[len--]);
 		if (!tmp)
@@ -118,61 +120,13 @@ static int	check_double_argument(char **tab)
 		{
 			if (first == get_identifier(tab[i]) && !is_valide_line(tab[i]))
 			{
-				ft_putstr_fd("Error\nAn other same line find :\n", 2);
+				ft_putstr_fd("Error\nAn other same line find : ", 2);
 				ft_putendl_fd(tab[i], 2);
-					return (1);
+				return (1);
 			}
 			i++;
 		}
 		count++;
 	}
 	return (0);
-}
-
-static char	get_identifier(char *line)
-{
-	int	count;
-
-	count = 0;
-	while (line[count] && !ft_isalnum(line[count]))
-		count++;
-	if (!line || line[count] == '\0')
-		return (0);
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "NO", 2))
-		return ('N');
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "SO", 2))
-		return ('S');
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "WE", 2))
-		return ('W');
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "EA", 2))
-		return ('E');
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "F ", 2))
-		return ('F');
-	else if (ft_strlen(&line[count]) > 2 && !ft_strncmp(&line[count], "C ", 2))
-		return ('C');
-	return (0);
-}
-
-int	is_blank(char *line)
-{
-	size_t	count;
-
-	count = 0;
-	while (line[count])
-	{
-		if (line[count] != ' ' && line[count] != '\t')
-			return (1);
-		count++;
-	}
-	return (0);
-}
-
-int	lenght_tab(char **tab)
-{
-	int	count;
-
-	count = 0;
-	while (tab[count] != 0)
-		count++;
-	return (count);
 }

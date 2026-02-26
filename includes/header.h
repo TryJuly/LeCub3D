@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:16:41 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:31:55 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 # define GRIDSIZE 32
 # define TEXSIZE 64
-# define WIN_H 640
-# define WIN_W 800
+# define WIN_H 1280
+# define WIN_W 1600
 # define PI 3.141592
 
 # define W 119
@@ -130,9 +130,10 @@ char	**exctract_file(char *filename, char *tmp, int count);
 
 /*		Begin file check	*/
 
-int		valide_extension(char *filename);
-int		check_after_map(char **file);
 int		is_valide_line(char *line);
+char	get_identifier(char *line);
+int		check_after_map(char **file);
+int		valide_extension(char *filename);
 int		check_before_map(char **file, t_data *data);
 
 /*		RGB color			*/
@@ -146,25 +147,23 @@ char	*get_hex_color(int red, int green, int blue);
 
 /*		check				*/
 
-int		parsing(char *filename, t_data *data);
-int		init_texture(t_data *data);
-// int		is_valide_file(char *filename, t_data *data);
 int		is_blank(char *line);
-// int		get_infos(char **file, t_data *data);
+int		init_texture(t_data *data);
+int		parsing(char *filename, t_data *data);
 char	**copy_file_arg(char **file, int len, int count);;
-// char	**clean_extract(char *filename);
-// char	**exctract_file(char *filename, char *tmp, int count);
 
 /*		Map					*/
 
-char	**get_map(char **file, int lenght_up, int lenght_down, int count);
+int		map_set(char c);
+int		map_wall_up(char **map);
+int		map_wall_down(char **map);
+int		map_wall_left(char **map);
+int		map_is_walkable(char **map);
+int		map_wall_right(char **map);
 int		index_top_map(char **file);
 int		index_down_map(char **file);
 int		is_valide_line_map(char *line);
-int		map_wall_left(char **map);
-int		map_wall_right(char **map);
-int		map_wall_up(char **map);
-int		map_wall_down(char **map);
+char	**get_map(char **file, int lenght_up, int lenght_down, int count);
 
 /*		Get texture path	*/
 
@@ -173,7 +172,6 @@ char	*get_so_texture(char **file);
 char	*get_we_texture(char **file);
 char	*get_ea_texture(char **file);
 
-
 /*		DDA					*/
 
 int		loop(t_data *data);
@@ -181,27 +179,27 @@ int		key_pressed(int keycode, t_data *data);
 int		key_released(int kcode, t_data *data);
 
 long	get_curr_time(void);
-void	my_pixel_put(t_img *img, int x, int y, int color);
 void	init_data(t_data *data);
 int		win_close(t_data *data);
-void	draw_walls(t_data *data, int x);
 void	move_player(t_data *data);
-void	calculate_ray(t_data *data, int x, double ray_x, double ray_y);
+void	draw_walls(t_data *data, int x);
 void	clean_img(t_img img, t_texture color);
+void	my_pixel_put(t_img *img, int x, int y, int color);
+void	calculate_ray(t_data *data, int x, double ray_x, double ray_y);
 
 /*		Tools				*/
 
 int		lenght_tab(char **tab);
+int		is_wspace_line(char *line);
 void	ft_strcpy(char *dest, char *src);
+int		find_player(char **map, t_data *data);
 int		get_size_map(char **map, t_data *data);
 int		find_player_pos(char **map, t_data *data);
-int		find_player(char **map, t_data *data);
-int		ft_atoi_base(char *str, char *base);
 
 /*		Announce			*/
 
-void	print_unclosed(void);
 void	print_example(void);
+void	print_unclosed(void);
 
 /*		Clean				*/
 
@@ -210,6 +208,6 @@ void	clean_data_end(t_data *data);
 void	clean_texture_map(t_data *data);
 void	clean_array_null(char ***array);
 void	clean_texture_init(t_data *data);
-
+void	free_error_texture(t_data *data);
 
 #endif

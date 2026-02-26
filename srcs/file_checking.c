@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:38:21 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 13:42:01 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 08:29:18 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ int	check_after_map(char **file)
 	int	i;
 
 	count = (index_down_map(file) + 1);
+	if (file[count] && !is_valide_line_map(file[count]))
+	{
+		ft_putstr_fd("Error\nInvalide character in map\n", 2);
+		return (1);
+	}
 	while (file[count] && file[count] != 0)
 	{
 		i = 0;
