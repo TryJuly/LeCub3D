@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:16:41 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 09:38:17 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 # define GRIDSIZE 32
 # define TEXSIZE 64
-# define WIN_H 640
-# define WIN_W 800
+# define WIN_H 1280
+# define WIN_W 1600
 # define PI 3.141592
 
 # define W 119
@@ -134,6 +134,7 @@ int		valide_extension(char *filename);
 int		check_after_map(char **file);
 int		is_valide_line(char *line);
 int		check_before_map(char **file, t_data *data);
+char	get_identifier(char *line);
 
 /*		RGB color			*/
 
@@ -165,6 +166,7 @@ int		map_wall_left(char **map);
 int		map_wall_right(char **map);
 int		map_wall_up(char **map);
 int		map_wall_down(char **map);
+int		map_set(char c);
 
 /*		Get texture path	*/
 
@@ -172,7 +174,6 @@ char	*get_no_texture(char **file);
 char	*get_so_texture(char **file);
 char	*get_we_texture(char **file);
 char	*get_ea_texture(char **file);
-
 
 /*		DDA					*/
 
@@ -196,7 +197,7 @@ void	ft_strcpy(char *dest, char *src);
 int		get_size_map(char **map, t_data *data);
 int		find_player_pos(char **map, t_data *data);
 int		find_player(char **map, t_data *data);
-int		ft_atoi_base(char *str, char *base);
+int		is_wspace_line(char *line);
 
 /*		Announce			*/
 
@@ -210,6 +211,5 @@ void	clean_data_end(t_data *data);
 void	clean_texture_map(t_data *data);
 void	clean_array_null(char ***array);
 void	clean_texture_init(t_data *data);
-
 
 #endif

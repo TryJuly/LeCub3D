@@ -20,7 +20,8 @@ endif
 SRCS = main.c extension.c get_file.c clean.c get_texture.c get_map.c\
 		get_rgb.c begin_file.c file_checking.c get_infos.c\
 		parsing.c dda.c convert_rgb.c announce.c init_texture.c\
-		convert_rgb_2.c init_data.c mlx_hook.c draw.c mlx_hook_2.c
+		convert_rgb_2.c init_data.c mlx_hook.c draw.c mlx_hook_2.c\
+		utils_begin.c utils_get_map.c tools.c
 
 SRCS_PATH = ${addprefix srcs/, ${SRCS}}
 INCLUDES_PATH = ${addprefix includes/, ${INCLUDES}}
