@@ -19,8 +19,13 @@ an error.
 
 # Resources
 
-- Raycasting : https://lodev.org/cgtutor/raycasting.html
-- Minilibx : https://harm-smits.github.io/42docs/
+- Raycasting :
+    - https://lodev.org/cgtutor/raycasting.html
+    - https://aaaa.sh/creatures/dda-algorithm-interactive/
+    - https://www.youtube.com/watch?v=NbSee-XM7WA
+
+- Minilibx :
+    - https://harm-smits.github.io/42docs/
 
 
 valgrind --track-fds=yes;
