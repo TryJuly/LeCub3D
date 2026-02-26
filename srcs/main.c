@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:09:39 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 10:17:22 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int ac, char **av)
 		return (printf("Error\nArgument missing\n"), 1);
 	if (parsing(av[1], &data))
 		return (1);
-	data.mlx = mlx_init();
 	if (init_texture(&data))
 		return (1);
 	data.win = mlx_new_window(data.mlx, WIN_W, WIN_H, "Cub3D");
