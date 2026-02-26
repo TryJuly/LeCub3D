@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:30:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:38:51 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 10:36:35 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ int	init_texture(t_data *data)
 	if (init_texture_we(data))
 		valide = 1;
 	if (valide == 1)
+	{
+		free_error_texture(data);
+		clean_array_null(&data->map);
+		mlx_destroy_display(data->mlx);
 		return (clean_texture_init(data), free(data->mlx), 1);
+	}
 	return (0);
 }
 
@@ -51,6 +56,7 @@ static int	init_texture_no(t_data *data)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
 		ft_putendl_fd(data->image.no_texture, 2);
+		data->image.no_img.img = NULL;
 		return (1);
 	}
 	data->image.no_img.img = ptr;
@@ -74,6 +80,7 @@ static int	init_texture_so(t_data *data)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
 		ft_putendl_fd(data->image.so_texture, 2);
+		data->image.so_img.img = NULL;
 		return (1);
 	}
 	data->image.so_img.img = ptr;
@@ -97,6 +104,7 @@ static int	init_texture_we(t_data *data)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
 		ft_putendl_fd(data->image.we_texture, 2);
+		data->image.we_img.img = NULL;
 		return (1);
 	}
 	data->image.we_img.img = ptr;
@@ -120,6 +128,7 @@ static int	init_texture_ea(t_data *data)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
 		ft_putendl_fd(data->image.ea_texture, 2);
+		data->image.ea_img.img = NULL;
 		return (1);
 	}
 	data->image.ea_img.img = ptr;

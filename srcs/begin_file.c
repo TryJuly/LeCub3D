@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 08:04:54 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:26:54 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 10:22:25 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	check_before_map(char **file, t_data *data)
 	if (!tab)
 		return (1);
 	if (lenght_tab(tab) != 6)
+	{
+		ft_putstr_fd("Error\nArgument not found\n", 2);
 		return (clean_array(tab), print_example(), 1);
+	}
 	if (is_valide_argument(tab))
 		return (clean_array(tab), print_example(), 1);
 	if (fill_argument(tab, data))
