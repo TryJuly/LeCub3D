@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 07:46:15 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:26:59 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 10:08:32 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	is_wspace_line(char *line)
 	count = 0;
 	while (line[count])
 	{
-		if (ft_isprint(line[count]))
+		if (ft_isprint(line[count]) && line[count] != ' ')
 			return (1);
 		count++;
 	}
