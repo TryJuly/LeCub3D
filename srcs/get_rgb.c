@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 10:10:45 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 12:07:14 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	*get_rgb_f(char **file)
 	tmp = tab_rgb_color(file, get_index_f(file));
 	if (!tmp)
 		return (NULL);
+	if (lenght_tab(tmp) != 3)
+		return (clean_array_null(&tmp), NULL);
 	tab = malloc(3 * sizeof(int));
 	if (!tab)
 		return (clean_array(tmp), NULL);
@@ -47,6 +49,8 @@ int	*get_rgb_c(char **file)
 	tmp = tab_rgb_color(file, get_index_c(file));
 	if (!tmp)
 		return (NULL);
+	if (lenght_tab(tmp) != 3)
+		return (clean_array_null(&tmp), NULL);
 	tab = malloc(3 * sizeof(int));
 	if (!tab)
 		return (clean_array(tmp), NULL);
