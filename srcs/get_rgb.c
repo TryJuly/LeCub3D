@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 07:54:53 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 09:56:54 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ static int	valide_rgb(char **tab)
 		while (tab[i][count])
 		{
 			if ((tab[i][count] < '0' || tab[i][count] > '9')
-				&& (tab[i][count] != ' ' || tab[i][count] != ','
-				|| tab[i][count] != '\t'))
+				&& (tab[i][count] != ' ' && tab[i][count] != ','
+				&& tab[i][count] != '\t'))
 				return (1);
 			count++;
 		}
