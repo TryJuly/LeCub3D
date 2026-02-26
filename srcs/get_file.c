@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:05:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 09:26:23 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:07:27 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	length_file(char *filename, int fd);
 static void	clean_wspace(char **file);
+static void	clean_bn(char **file);
 
 char	**exctract_file(char *filename, char *tmp, int count)
 {
@@ -34,13 +35,29 @@ char	**exctract_file(char *filename, char *tmp, int count)
 		tmp = get_next_line(fd);
 		if (!tmp)
 			break ;
-		tmp[ft_strlen(tmp) - 1] = '\0';
 		out_file[count++] = tmp;
 	}
 	out_file[count] = 0;
+	clean_bn(out_file);
 	clean_wspace(out_file);
 	close(fd);
 	return (out_file);
+}
+
+static void	clean_bn(char **file)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	while (file[count] != 0)
+	{
+		i = ft_strlen(file[count]);
+		while (i >= 0 && file[count][i] == '\n')
+			file[count][i--] = '\0';
+		count++;
+	}
+	return ;
 }
 
 static void	clean_wspace(char **file)

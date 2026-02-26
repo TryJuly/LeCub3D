@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:58:17 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 10:39:47 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:31:55 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int		map_set(char c);
 int		map_wall_up(char **map);
 int		map_wall_down(char **map);
 int		map_wall_left(char **map);
+int		map_is_walkable(char **map);
 int		map_wall_right(char **map);
 int		index_top_map(char **file);
 int		index_down_map(char **file);

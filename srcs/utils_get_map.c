@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 07:49:15 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/26 07:52:29 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:13:37 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	map_wall_right(char **map)
 	count = 0;
 	while (map[count])
 	{
-		i = ft_strlen(map[count]);
+		i = ft_strlen(map[count]) - 1;
 		while (i >= 0 && map[count][i])
 		{
 			if (map[count][i] != '1' && map[count][i] != ' ')
