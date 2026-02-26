@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:21:50 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/02/25 15:12:40 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 13:28:27 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,10 @@ int	loop(t_data *data)
 		calculate_ray(data, x, data->ray_dirx, data->ray_diry);
 		x++;
 	}
-	//timing for input and fps counter
 	data->oldtime = data->time;
 	data->time = get_curr_time();
 	data->frames = (data->time - data->oldtime) / 1000.0;
-	//printf("%f\n", 1.0 / data->frames);
-	//redraw the screen
 	mlx_put_image_to_window(data->mlx, data->win, data->walls.img, 0, 0);
-	//speed modifiers
 	data->move_speed = data->frames * MOVE_SPEED;
 	data->rot_speed = data->frames * ROT_SPEED;
 	move_player(data);
@@ -52,6 +48,7 @@ int	loop(t_data *data)
 int	win_close(t_data *data)
 {
 	clean_texture_init(data);
+	clean_array(data->map);
 	mlx_destroy_image(data->mlx, data->walls.img);
 	mlx_destroy_image(data->mlx, data->image.no_img.img);
 	mlx_destroy_image(data->mlx, data->image.so_img.img);

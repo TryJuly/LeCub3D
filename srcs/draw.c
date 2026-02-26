@@ -6,7 +6,7 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:41:03 by cbezenco          #+#    #+#             */
-/*   Updated: 2026/02/25 14:21:08 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 13:20:40 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	draw_walls(t_data *data, int x)
 	draw_end = data->line_h / 2 + WIN_H / 2;
 	if (draw_end >= WIN_H)
 		draw_end = WIN_H - 1;
-	//dessiner la vertical stripe
 	y = draw_start;
 	while (y <= draw_end)
 	{

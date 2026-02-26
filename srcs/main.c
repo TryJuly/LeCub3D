@@ -6,17 +6,11 @@
 /*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 08:57:36 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:25:57 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 13:29:01 by cbezenco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-// int	mouse_move(t_data *data)
-// {
-// 	printf("oui %i\n", data->keys.w);
-// 	return (0);
-// }
 
 int	main(int ac, char **av)
 {
@@ -26,7 +20,6 @@ int	main(int ac, char **av)
 		return (printf("Error\nArgument missing\n"), 1);
 	if (parsing(av[1], &data))
 		return (1);
-	data.mlx = mlx_init();
 	init_texture(&data);
 	data.win = mlx_new_window(data.mlx, WIN_W, WIN_H, "Cub3D");
 	data.walls.img = mlx_new_image(data.mlx, WIN_W, WIN_H);
@@ -36,7 +29,6 @@ int	main(int ac, char **av)
 	init_data(&data);
 	mlx_hook(data.win, 2, (1L << 0), key_pressed, &data);
 	mlx_hook(data.win, 3, (1L << 1), key_released, &data);
-	//mlx_hook(data.win, 6, (1L << 6), mouse_move, &data);
 	mlx_hook(data.win, 17, (0L), win_close, &data);
 	mlx_loop_hook(data.mlx, loop, &data);
 	mlx_loop(data.mlx);
