@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbezenco <cbezenco@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:30:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 13:15:22 by cbezenco         ###   ########.fr       */
+/*   Updated: 2026/02/26 09:38:51 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int	init_texture(t_data *data)
 
 static int	init_texture_no(t_data *data)
 {
-	void	*ptr;
-	// int		width;
-	// int		height;
+	void		*ptr;
+	char		*img_p;
+	t_img		*ptr_t;
 
-	// width = WIN_W;
-	// height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.no_texture, &data->size, &data->size);
+	img_p = data->image.no_texture;
+	ptr_t = &data->image.no_img;
+	ptr = mlx_xpm_file_to_image(data->mlx, img_p, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -54,8 +54,8 @@ static int	init_texture_no(t_data *data)
 		return (1);
 	}
 	data->image.no_img.img = ptr;
-	data->image.no_img.addr = mlx_get_data_addr(ptr, &data->image.no_img.bits_per_pixel,
-			&data->image.no_img.line_length, &data->image.no_img.endian);
+	data->image.no_img.addr = mlx_get_data_addr(ptr, &ptr_t->bits_per_pixel,
+			&ptr_t->line_length, &ptr_t->endian);
 	if (!data->image.no_img.addr)
 		return (1);
 	return (0);
@@ -64,12 +64,12 @@ static int	init_texture_no(t_data *data)
 static int	init_texture_so(t_data *data)
 {
 	void	*ptr;
-	// int		width;
-	// int		height;
+	char	*img_p;
+	t_img	*ptr_t;
 
-	// width = WIN_W;
-	// height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.so_texture, &data->size, &data->size);
+	img_p = data->image.so_texture;
+	ptr_t = &data->image.so_img;
+	ptr = mlx_xpm_file_to_image(data->mlx, img_p, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -77,8 +77,8 @@ static int	init_texture_so(t_data *data)
 		return (1);
 	}
 	data->image.so_img.img = ptr;
-	data->image.so_img.addr = mlx_get_data_addr(ptr, &data->image.so_img.bits_per_pixel,
-			&data->image.so_img.line_length, &data->image.so_img.endian);
+	data->image.so_img.addr = mlx_get_data_addr(ptr, &ptr_t->bits_per_pixel,
+			&ptr_t->line_length, &ptr_t->endian);
 	if (!data->image.so_img.addr)
 		return (1);
 	return (0);
@@ -87,12 +87,12 @@ static int	init_texture_so(t_data *data)
 static int	init_texture_we(t_data *data)
 {
 	void	*ptr;
-	// int		width;
-	// int		height;
+	char	*img_p;
+	t_img	*ptr_t;
 
-	// width = WIN_W;
-	// height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.we_texture, &data->size, &data->size);
+	img_p = data->image.we_texture;
+	ptr_t = &data->image.we_img;
+	ptr = mlx_xpm_file_to_image(data->mlx, img_p, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -100,8 +100,8 @@ static int	init_texture_we(t_data *data)
 		return (1);
 	}
 	data->image.we_img.img = ptr;
-	data->image.we_img.addr = mlx_get_data_addr(ptr, &data->image.we_img.bits_per_pixel,
-			&data->image.we_img.line_length, &data->image.we_img.endian);
+	data->image.we_img.addr = mlx_get_data_addr(ptr, &ptr_t->bits_per_pixel,
+			&ptr_t->line_length, &ptr_t->endian);
 	if (!data->image.we_img.addr)
 		return (1);
 	return (0);
@@ -110,12 +110,12 @@ static int	init_texture_we(t_data *data)
 static int	init_texture_ea(t_data *data)
 {
 	void	*ptr;
-	// int		width;
-	// int		height;
+	char	*img_p;
+	t_img	*ptr_t;
 
-	// width = WIN_W;
-	// height = WIN_H;
-	ptr = mlx_xpm_file_to_image(data->mlx, data->image.ea_texture, &data->size, &data->size);
+	img_p = data->image.ea_texture;
+	ptr_t = &data->image.ea_img;
+	ptr = mlx_xpm_file_to_image(data->mlx, img_p, &data->size, &data->size);
 	if (!ptr)
 	{
 		ft_putstr_fd("Error\nUnsupported texture : ", 2);
@@ -123,8 +123,8 @@ static int	init_texture_ea(t_data *data)
 		return (1);
 	}
 	data->image.ea_img.img = ptr;
-	data->image.ea_img.addr = mlx_get_data_addr(ptr, &data->image.ea_img.bits_per_pixel,
-			&data->image.ea_img.line_length, &data->image.ea_img.endian);
+	data->image.ea_img.addr = mlx_get_data_addr(ptr, &ptr_t->bits_per_pixel,
+			&ptr_t->line_length, &ptr_t->endian);
 	if (!data->image.ea_img.addr)
 		return (1);
 	return (0);

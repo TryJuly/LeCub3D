@@ -6,13 +6,14 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:05:32 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:20:22 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 09:26:23 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 static int	length_file(char *filename, int fd);
+static void	clean_wspace(char **file);
 
 char	**exctract_file(char *filename, char *tmp, int count)
 {
@@ -37,15 +38,26 @@ char	**exctract_file(char *filename, char *tmp, int count)
 		out_file[count++] = tmp;
 	}
 	out_file[count] = 0;
-	return (close(fd), out_file);
+	clean_wspace(out_file);
+	close(fd);
+	return (out_file);
 }
 
-// char	*propper(char *str)
-// {
-// 	char	*tmp;
+static void	clean_wspace(char **file)
+{
+	int	count;
+	int	i;
 
-// 	tmp = ft_strtrim(str, "\n\r")
-// }
+	count = 0;
+	while (file[count] != 0)
+	{
+		i = ft_strlen(file[count]);
+		while (i >= 0 && !ft_isprint(file[count][i]))
+			file[count][i--] = '\0';
+		count++;
+	}
+	return ;
+}
 
 void	print_tab(char **tab)
 {
@@ -56,60 +68,6 @@ void	print_tab(char **tab)
 		printf("%s\n", tab[count++]);
 	return ;
 }
-
-// char	**clean_extract(char *filename)
-// {
-// 	int		count;
-// 	char	**file;
-// 	char	*tmp;
-	
-// 	file = exctract_file(filename, 0, 0);
-// 	if (!file)
-// 		return (NULL);
-// 	count = 0;
-// 	while (file[count] != 0)
-// 	{
-// 		tmp = ft_strtrim(file[count], "\n");
-// 		if (!tmp)
-// 			return (clean_array(file), NULL);
-// 		free(file[count]);
-// 		file[count] = tmp;
-// 		count++;
-// 	}
-// 	return (file);
-// }
-
-// static char	**exctract_file(char *filename, char *tmp, int count)
-// {
-// 	int		fd;
-// 	char	**out_file;
-// 	int		len;
-
-// 	count = 0;
-// 	len = length_file(filename);
-// 	out_file = ft_calloc(len + 1, sizeof(char *));
-// 	if (!out_file)
-// 		return (NULL);
-// 	fd = open(filename, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		printf("Error\n Can't open file : %s\n", filename);
-// 		return (free(out_file), NULL);
-// 	}
-// 	tmp = get_next_line(fd);
-// 	if (!tmp)
-// 		return (free(out_file), close(fd), NULL);
-// 	out_file[count++] = tmp;
-// 	while (tmp)
-// 	{
-// 		tmp = get_next_line(fd);
-// 		if (!tmp)
-// 			break ;
-// 		out_file[count++] = tmp;
-// 	}
-// 	out_file[count] = 0;
-// 	return (close(fd), out_file);
-// }
 
 //	Need to free if open fail
 static int	length_file(char *filename, int fd)

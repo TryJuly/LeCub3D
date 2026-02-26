@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 09:20:10 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 13:36:43 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 07:55:14 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	get_rgb_color(char **file, char type)
 {
 	int	*color;
 	int	result;
-	
+
 	if (type == 'c')
 		color = get_rgb_c(file);
 	else if (type == 'f')

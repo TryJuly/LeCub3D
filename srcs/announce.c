@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 08:11:07 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 15:24:59 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 09:32:12 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	print_unclosed(void)
 
 void	print_example(void)
 {
-	printf("Error\n");
 	printf("Please configure the file as follows :\n");
 	printf("\nNO ./path_to_the_north_texture\n");
 	printf("SO ./path_to_the_south_texture\n");
@@ -48,7 +47,9 @@ void	print_example(void)
 	printf("\n(Info) R,G,B colors in range [0,255]: 0, 255, 255\n");
 	printf("\n");
 	printf("The map must be composed of only 6 possible characters:\n");
-	printf("0 for an empty space, 1 for a wall, and N,S,E or W for the player "); 
+	printf("0 for an empty space\n");
+	printf("1 for a wall\n");
+	printf("One of N,S,E or W for the player\n");
 	printf("start position and spawning orientation.\n");
 	printf("\n");
 	printf("The map must be closed/surrounded by walls\n");

@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:35:18 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 08:11:54 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 07:55:59 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	valide_extension(char *filename)
 		{
 			count++;
 			i += 4;
-			continue;
+			continue ;
 		}
 		i++;
 	}

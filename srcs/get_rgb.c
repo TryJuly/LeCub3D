@@ -6,7 +6,7 @@
 /*   By: strieste <strieste@student.42.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 12:18:40 by strieste          #+#    #+#             */
-/*   Updated: 2026/02/25 13:23:50 by strieste         ###   ########.fr       */
+/*   Updated: 2026/02/26 07:54:53 by strieste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	*get_rgb_f(char **file)
 {
 	int		*tab;
 	char	**tmp;
-	
+
 	tmp = tab_rgb_color(file, get_index_f(file));
 	if (!tmp)
 		return (NULL);
@@ -43,7 +43,7 @@ int	*get_rgb_c(char **file)
 {
 	int		*tab;
 	char	**tmp;
-	
+
 	tmp = tab_rgb_color(file, get_index_c(file));
 	if (!tmp)
 		return (NULL);
@@ -74,7 +74,9 @@ static int	valide_rgb(char **tab)
 		count = 0;
 		while (tab[i][count])
 		{
-			if ((tab[i][count] < '0' || tab[i][count] > '9') && (tab[i][count] != ' ' || tab[i][count] != ',' || tab[i][count] != '\t'))
+			if ((tab[i][count] < '0' || tab[i][count] > '9')
+				&& (tab[i][count] != ' ' || tab[i][count] != ','
+				|| tab[i][count] != '\t'))
 				return (1);
 			count++;
 		}
